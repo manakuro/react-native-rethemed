@@ -1,4 +1,17 @@
+const path = require('path');
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+
+const projectRoot = __dirname;
+const monorepoRoot = path.resolve(projectRoot, '../..');
+
+/**
+ * Resolved from the app no matter which file imports them:
+ * - `react` / `react-native`: workspace packages (`@react-native-rethemed/*`)
+ *   have their own devDependency copies, and only one may be bundled.
+ * - `@babel/runtime`: Babel injects its helpers into workspace package
+ *   sources, which don't depend on it themselves.
+ */
+const SINGLETONS = ['react', 'react-native', '@babel/runtime'];
 
 /**
  * Metro configuration
@@ -6,6 +19,24 @@ const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
  *
  * @type {import('@react-native/metro-config').MetroConfig}
  */
-const config = {};
+const config = {
+  // pnpm links workspace packages and `node_modules/.pnpm` from the
+  // monorepo root, outside this app.
+  watchFolders: [monorepoRoot],
+  resolver: {
+    resolveRequest: (context, moduleName, platform) => {
+      const isSingleton = SINGLETONS.some(
+        name => moduleName === name || moduleName.startsWith(`${name}/`),
+      );
+      return context.resolveRequest(
+        isSingleton
+          ? { ...context, originModulePath: path.join(projectRoot, 'index.js') }
+          : context,
+        moduleName,
+        platform,
+      );
+    },
+  },
+};
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+module.exports = mergeConfig(getDefaultConfig(projectRoot), config);

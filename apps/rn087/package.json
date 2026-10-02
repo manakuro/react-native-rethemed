@@ -3,16 +3,21 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "prepack": "pnpm run theme:codegen",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "theme:codegen": "react-native-rethemed codegen src/theme/theme.ts --docs docs/themed.md",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "@react-native-rethemed/chakra-ui-tokens": "workspace:*",
+    "@react-native-rethemed/core": "workspace:*",
+    "@react-native/new-app-screen": "0.87.1",
     "react": "19.2.3",
     "react-native": "0.87.1",
-    "@react-native/new-app-screen": "0.87.1",
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
@@ -22,6 +27,7 @@
     "@react-native-community/cli": "20.2.0",
     "@react-native-community/cli-platform-android": "20.2.0",
     "@react-native-community/cli-platform-ios": "20.2.0",
+    "@react-native-rethemed/cli": "workspace:*",
     "@react-native/babel-preset": "0.87.1",
     "@react-native/eslint-config": "0.87.1",
     "@react-native/jest-preset": "0.87.1",
