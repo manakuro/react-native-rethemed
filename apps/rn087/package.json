@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "pnpm run theme:codegen",
-    "android": "react-native run-android",
+    "android": "react-native run-android --active-arch-only",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
