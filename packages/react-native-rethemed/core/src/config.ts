@@ -1,9 +1,9 @@
 /**
  * `@react-native-rethemed/core/config` — the React/RN-free part of core.
  *
- * Theme files (and theme packages) import from here so
- * `@react-native-rethemed/cli codegen` can evaluate them in plain Node without
- * loading `react-native`.
+ * Apps can import everything from the package root: the CLI stubs
+ * `react-native` when it evaluates a theme file. Core's own token packages
+ * still import from here so they never depend on that stub.
  */
 export { defineTheme } from './define-theme';
 export { extendTheme } from './extend-theme';

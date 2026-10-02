@@ -64,7 +64,7 @@ pnpm generate         # panda-css only: regenerate src/tokens.gen.ts from @panda
 
 ### core
 
-- `src/config.ts` (`@react-native-rethemed/core/config`) is the **React / React Native-free** entry point. Theme files and token packages must import `defineTheme` / `extendTheme` from `@react-native-rethemed/core/config`, not from the package root, so the CLI can evaluate them in plain Node.
+- `src/config.ts` (`@react-native-rethemed/core/config`) is the **React / React Native-free** entry point. Token packages import from it. App theme files may import from the package root (`@react-native-rethemed/core`): the CLI aliases `react-native` to an empty stub (`cli/src/react-native-stub.cjs`) when evaluating them.
 - `src/index.ts` re-exports `config` plus the React-dependent API (`createThemed`, `createThemedStyles`).
 - Token resolution lives in `src/resolvers/`; style-prop → token-key mapping in `src/style-props.ts`; text presets in `src/text-tree.ts` / `src/text-variants.ts`.
 - Type-level tests live in `src/__type-tests__/` and are checked by `tsc`.

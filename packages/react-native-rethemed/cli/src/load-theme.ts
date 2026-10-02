@@ -1,5 +1,13 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { ThemeConfig } from '@react-native-rethemed/core/config';
 import { createJiti } from 'jiti';
+
+/** See `react-native-stub.cjs`. */
+const REACT_NATIVE_STUB = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  'react-native-stub.cjs',
+);
 
 export type LoadedTheme = {
   config: ThemeConfig;
@@ -14,8 +22,9 @@ const looksLikeThemeConfig = (value: unknown): value is ThemeConfig =>
 
 /**
  * Evaluates a theme file (TS or JS) in plain Node via jiti and returns the
- * exported config. The file — and the theme packages it imports — must only
- * use `@react-native-rethemed/core/config`, never `react-native` at runtime.
+ * exported config. `react-native` is aliased to an empty stub, so the file
+ * may import from `@react-native-rethemed/core` (or `/config`), but must not
+ * use `react-native` while building the config.
  *
  * Export resolution: `exportName` if given, else the default export, else
  * the single export that looks like a `ThemeConfig`.
@@ -24,7 +33,11 @@ export async function loadTheme(
   file: string,
   exportName?: string,
 ): Promise<LoadedTheme> {
-  const jiti = createJiti(file, { moduleCache: false, fsCache: false });
+  const jiti = createJiti(file, {
+    moduleCache: false,
+    fsCache: false,
+    alias: { 'react-native': REACT_NATIVE_STUB },
+  });
   const mod = await jiti.import<Record<string, unknown>>(file);
 
   if (exportName) {

@@ -142,4 +142,11 @@ describe('loadTheme', () => {
   it('rejects an export that is not a theme config', async () => {
     await expect(loadTheme(file, 'nope')).rejects.toThrow("Export 'nope' of");
   });
+
+  it('loads a theme that imports from the core root (react-native stubbed)', async () => {
+    const { config } = await loadTheme(
+      path.join(import.meta.dirname, '__fixtures__/root-import-theme.ts'),
+    );
+    expect(config.tokens?.spacing).toEqual({ 1: 4 });
+  });
 });
