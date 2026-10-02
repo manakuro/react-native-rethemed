@@ -1,6 +1,14 @@
 name: Setup Monorepo
 description: Prepare and install everything for the monorepo
 
+inputs:
+  cache-key:
+    description: >-
+      Scope for the Turborepo cache (e.g. the package a matrix job checks), so
+      parallel jobs save and restore their own cache instead of racing for one key.
+    required: false
+    default: default
+
 runs:
   using: composite
   steps:
@@ -28,7 +36,7 @@ runs:
     - name: Restore cache
       uses: actions/cache@v4
       with:
-        key: turbo-${{ runner.os }}-${{ github.sha }}
+        key: turbo-${{ runner.os }}-${{ inputs.cache-key }}-${{ github.sha }}
         restore-keys: |
-          turbo-${{ runner.os }}
+          turbo-${{ runner.os }}-${{ inputs.cache-key }}-
         path: .turbo
