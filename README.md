@@ -4,6 +4,12 @@
 
 Design tokens for React Native style props — no wrapper components. Typed by codegen, light/dark aware, with token packages for Chakra UI, Material Design 3, Panda CSS and more.
 
+<p align="center">
+  <img src="assets/top-light.png" alt="Playground app with the Chakra UI theme in light mode" width="280" />
+  &nbsp;&nbsp;
+  <img src="assets/top-dark.png" alt="The same screen in dark mode" width="280" />
+</p>
+
 ## ✨ Features
 
 - **🔒 Fully Typed**: Codegen turns your theme into exact TypeScript types. Unknown tokens and raw colors are compile errors, and editor hovers show each token's value
