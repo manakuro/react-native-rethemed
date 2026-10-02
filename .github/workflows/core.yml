@@ -1,0 +1,22 @@
+name: 【core】 Testing
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "packages/react-native-rethemed/core/**"
+      - ".github/workflows/core.yml"
+
+jobs:
+  test:
+    name: Testing
+    runs-on: ubuntu-latest
+    env:
+      SAFE_CHAIN_LOGGING: silent
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+      - name: Run lint
+        run: pnpm --filter core lint
+      - name: Run test
+        run: pnpm --filter core test:ci
