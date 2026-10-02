@@ -18,14 +18,18 @@ This file is referenced by multiple AI coding assistants:
 
 ## Project Overview
 
-An Asana clone application built as a monorepo with:
+`react-native-rethemed` — design tokens for React Native style props, with no wrapper components. A theme is declared with `defineTheme`, the CLI generates typed bindings (`themed.gen.ts`), and components resolve tokens through `themed.view({ padding: 4, backgroundColor: 'bg.panel' })` etc. Semantic colors switch with light/dark.
 
-| Component | Technology                       | Location |
-|-----------|----------------------------------|----------|
-| Backend | Go, GraphQL (gqlgen), Ent ORM    | `apps/api/` |
-| Frontend | Next.js, React, Jotai, Chakra UI | `apps/nextjs/` |
-| Database | MySQL                            | — |
-| Monorepo | pnpm workspaces + Turborepo      | — |
+| Package | npm name | Location | Purpose |
+|---------|----------|----------|---------|
+| core | `@react-native-rethemed/core` | `packages/react-native-rethemed/core/` | Runtime: `createThemed`, `createThemedStyles`, `defineTheme`, `extendTheme`, resolvers, color-mode store |
+| cli | `@react-native-rethemed/cli` | `packages/react-native-rethemed/cli/` | `react-native-rethemed codegen` — generates `themed.gen.ts` and an optional Markdown token reference |
+| chakra-ui | `@react-native-rethemed/chakra-ui-tokens` | `packages/react-native-rethemed/chakra-ui/` | `chakraUiTheme` (Chakra UI tokens + semantic colors) |
+| material-design | `@react-native-rethemed/material-design-tokens` | `packages/react-native-rethemed/material-design/` | `materialDesignTheme` (Material Design 3 type scale, spacing) |
+| panda-css | `@react-native-rethemed/panda-css-tokens` | `packages/react-native-rethemed/panda-css/` | `pandaCssTheme`, converted from `@pandacss/preset-panda` |
+| biome-config | `biome-config` (private) | `packages/biome-config/` | Shared Biome config extended by every package |
+
+Tooling: pnpm workspaces (with `catalog:` for `react` / `react-native`) + Turborepo, TypeScript, Biome, Vitest, Lefthook, Commitizen.
 
 ---
 
@@ -35,93 +39,71 @@ An Asana clone application built as a monorepo with:
 
 ```bash
 pnpm install          # Install dependencies
-pnpm dev              # Start all dev servers
-pnpm build            # Build all apps
-pnpm lint             # Lint all apps
-pnpm test             # Test all apps
-pnpm tsc              # TypeScript check
+pnpm build            # Build all packages
+pnpm lint             # Lint all packages (Biome)
+pnpm lint:fix         # Fix lint issues
+pnpm test             # Run Vitest (watch)
+pnpm test:ci          # Run Vitest once
+pnpm tsc              # TypeScript check (tsc --noEmit)
+pnpm cz               # Commit with Commitizen (conventional commits)
 ```
 
-### Frontend (`apps/nextjs/`)
+### Per package
+
+Run with `pnpm --filter <npm name> <script>` or from the package directory.
 
 ```bash
-pnpm dev              # Dev server (port 4001)
-pnpm build            # Production build
-pnpm lint:fix         # Fix linting (Biome)
-pnpm codegen          # Generate GraphQL types
-pnpm test             # Run Vitest tests
-pnpm storybook        # Start Storybook (port 6006)
-```
-
-### Backend (`apps/api/`)
-
-```bash
-make start            # Dev server with hot reload
-make setup_db         # Initialize database
-make migrate_schema   # Run migrations
-make seed             # Seed test data
-make ent_generate     # Generate Ent schema
-make test_repository  # Run repository tests
+pnpm lint / lint:fix / tsc / test / test:ci   # Available in every package
+pnpm example:codegen  # chakra-ui, material-design, panda-css: regenerate example/themed.gen.ts and example/themed.md
+pnpm generate         # panda-css only: regenerate src/tokens.gen.ts from @pandacss/preset-panda
 ```
 
 ---
 
 ## Architecture Guidelines
 
-### Frontend Structure
+### core
 
-See `apps/nextjs/.claude/rules/folder-structure.md` for detailed folder conventions.
+- `src/config.ts` (`@react-native-rethemed/core/config`) is the **React / React Native-free** entry point. Theme files and token packages must import `defineTheme` / `extendTheme` from `@react-native-rethemed/core/config`, not from the package root, so the CLI can evaluate them in plain Node.
+- `src/index.ts` re-exports `config` plus the React-dependent API (`createThemed`, `createThemedStyles`).
+- Token resolution lives in `src/resolvers/`; style-prop → token-key mapping in `src/style-props.ts`; text presets in `src/text-tree.ts` / `src/text-variants.ts`.
+- Type-level tests live in `src/__type-tests__/` and are checked by `tsc`.
 
-**Key Principles:**
-- **Colocation**: Keep related files together
-- **Naming**: Use `kebab-case` for files and folders
-- **Dependency direction**: `shared → features → app` (one-way only)
+### cli
 
-**Directory Purposes:**
-- `features/` — Domain logic, reusable across pages (horizontal slicing)
-- `components/pages/` — Route-specific components (vertical slicing)
-- `components/ui/` — Domain-agnostic UI primitives
-- `components/layout/` — App-wide structure (header, sidebar)
-- `store/` — Jotai state management
+- Entry: `bin/react-native-rethemed.mjs` → `src/cli.ts`. Pipeline: `load-theme` (via jiti) → `validate` → `model` → `generate` / `emit` (+ `docs` for `--docs`).
+- `src/__fixtures__/` holds a sample theme and its committed output; `themed.gen.ts` there is generated and excluded from Biome.
 
-**Import Rules:**
-- `components/pages/*` must NOT import from other pages
-- `features/*` must NOT import from `components/pages/*`
-- No circular imports
+### Token packages (chakra-ui, material-design, panda-css)
 
-### Backend Structure
-
-- **Clean Architecture**: controller → usecase → repository → entity
-- **GraphQL**: Schema-first with gqlgen
-- **ORM**: Ent with schemas in `/ent/schema/`
-- **Real-time**: WebSocket subscriptions
+- Each exports one theme built with `defineTheme` from `src/index.ts`.
+- `example/` contains `theme.ts` (input), generated `themed.gen.ts` / `themed.md` (committed), and `usage.tsx` (type-checked usage sample). Tests fail when the committed output is stale — run `pnpm example:codegen` after changing the theme or the CLI.
+- panda-css: `src/tokens.gen.ts` is generated by `scripts/generate.ts` (using `scripts/convert.ts`). Do not edit it by hand; bump `@pandacss/preset-panda` and run `pnpm generate`.
+- When adding a new token package, follow the same layout (`src/`, `example/`, `biome.json` extending `biome-config`, `lint` / `tsc` / `test` / `example:codegen` scripts), and add matching commands to `lefthook.yml`.
 
 ---
 
 ## Code Style
 
-### Frontend
-- **Linter**: Biome (not ESLint)
-- **Formatter**: Biome
-- Run `pnpm lint:fix` before committing
-
-### Backend
-- **Formatter**: gofmt / goimports
-- Follow Go conventions
+- **Linter / Formatter**: Biome (not ESLint / Prettier). Each package's `biome.json` extends `packages/biome-config/biome.json`.
+- Single quotes, trailing commas, space indentation.
+- Files are named in `kebab-case`; tests sit next to the source as `*.test.ts`.
+- Never edit `*.gen.ts` files by hand — regenerate them.
+- Run `pnpm lint:fix` before committing. Lefthook runs Biome and `tsc` on staged files per package in `pre-commit`.
+- Commit messages follow Conventional Commits (`pnpm cz`).
 
 ---
 
 ## Important Notes
 
-- GraphQL codegen requires API server running
-- Frontend: port 4001 (dev) / 8080 (prod)
-- Hot reload enabled in both frontend and backend
-- Use pnpm (not npm or yarn)
+- Use pnpm (not npm or yarn). Node.js version is pinned in `.node-version` / `package.json` `engines`.
+- `react` and `react-native` versions come from the `catalog:` in `pnpm-workspace.yaml`; core declares them as peer dependencies.
+- License: MIT. Token packages convert values from upstream design systems — keep the upstream copyright notices.
 
 ---
 
 ## Additional Documentation
 
 - `CLAUDE.md` — Claude Code specific instructions
-- `apps/nextjs/CLAUDE.md` — Frontend-specific guidance
-- `apps/nextjs/.claude/rules/` — Detailed coding rules
+- `packages/react-native-rethemed/*/example/README.md` — What the CLI generates for each token package
+- `.claude/agents/`, `.claude/commands/` — Claude Code agents and commands
