@@ -1,7 +1,6 @@
 {
   "name": "@react-native-rethemed/cli",
   "version": "0.0.0",
-  "private": true,
   "license": "MIT",
   "type": "module",
   "bin": {

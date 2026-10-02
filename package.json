@@ -1,7 +1,7 @@
 {
   "name": "react-native-rethemed",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "engines": {
     "node": "24.18.0",
     "npm": "please use pnpm",
