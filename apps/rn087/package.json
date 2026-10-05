@@ -9,12 +9,14 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "theme:codegen": "react-native-rethemed codegen src/theme/theme.ts --docs docs/themed.md",
+    "theme:codegen": "react-native-rethemed codegen src/shell/theme.ts && react-native-rethemed codegen src/themes/chakra-ui/theme.ts --docs docs/themes/chakra-ui.md && react-native-rethemed codegen src/themes/material-design/theme.ts --docs docs/themes/material-design.md && react-native-rethemed codegen src/themes/panda-css/theme.ts --docs docs/themes/panda-css.md",
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@react-native-rethemed/chakra-ui-tokens": "workspace:*",
     "@react-native-rethemed/core": "workspace:*",
+    "@react-native-rethemed/material-design-tokens": "workspace:*",
+    "@react-native-rethemed/panda-css-tokens": "workspace:*",
     "@react-native/new-app-screen": "0.87.1",
     "react": "19.2.3",
     "react-native": "0.87.1",
