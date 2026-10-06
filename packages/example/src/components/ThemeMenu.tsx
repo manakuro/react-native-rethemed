@@ -32,7 +32,7 @@ export function ThemeMenu({ selectedId, onSelect }: Props) {
       <View style={themed.view({ gap: 2 })}>
         <MenuLabel>Themes</MenuLabel>
         <View style={themed.view({ gap: 1 })}>
-          {THEMES.map(theme => (
+          {THEMES.map((theme) => (
             <ThemeItem
               key={theme.id}
               theme={theme}
@@ -95,8 +95,8 @@ function ThemeItem({
           backgroundColor: selected
             ? 'bg.selected'
             : pressed
-            ? 'bg.subtle'
-            : undefined,
+              ? 'bg.subtle'
+              : undefined,
         })
       }
     >

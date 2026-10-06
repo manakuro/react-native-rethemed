@@ -8,10 +8,17 @@ const monorepoRoot = path.resolve(projectRoot, '../..');
  * Resolved from the app no matter which file imports them:
  * - `react` / `react-native`: workspace packages (`@react-native-rethemed/*`)
  *   have their own devDependency copies, and only one may be bundled.
+ * - `react-native-safe-area-context`: a peer of `@react-native-rethemed/example`
+ *   with its own native module; one JS copy must pair with it.
  * - `@babel/runtime`: Babel injects its helpers into workspace package
  *   sources, which don't depend on it themselves.
  */
-const SINGLETONS = ['react', 'react-native', '@babel/runtime'];
+const SINGLETONS = [
+  'react',
+  'react-native',
+  'react-native-safe-area-context',
+  '@babel/runtime',
+];
 
 /**
  * Metro configuration

@@ -65,3 +65,15 @@ pre-commit:
       root: packages/react-native-rethemed/panda-css/
       glob: "*.{ts,tsx}"
       run: npx tsc --noEmit
+    example/lint:
+      tags: example
+      root: packages/example/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    example/tsc:
+      tags: example
+      root: packages/example/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit

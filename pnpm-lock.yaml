@@ -190,18 +190,9 @@ importers:
 
   apps/rn087:
     dependencies:
-      '@react-native-rethemed/chakra-ui-tokens':
+      '@react-native-rethemed/example':
         specifier: workspace:*
-        version: link:../../packages/react-native-rethemed/chakra-ui
-      '@react-native-rethemed/core':
-        specifier: workspace:*
-        version: link:../../packages/react-native-rethemed/core
-      '@react-native-rethemed/material-design-tokens':
-        specifier: workspace:*
-        version: link:../../packages/react-native-rethemed/material-design
-      '@react-native-rethemed/panda-css-tokens':
-        specifier: workspace:*
-        version: link:../../packages/react-native-rethemed/panda-css
+        version: link:../../packages/example
       '@react-native/new-app-screen':
         specifier: 0.87.1
         version: 0.87.1(@types/react@19.2.17)(react-native@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
@@ -233,9 +224,6 @@ importers:
       '@react-native-community/cli-platform-ios':
         specifier: 20.2.0
         version: 20.2.0
-      '@react-native-rethemed/cli':
-        specifier: workspace:*
-        version: link:../../packages/react-native-rethemed/cli
       '@react-native/babel-preset':
         specifier: 0.87.1
         version: 0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
@@ -281,6 +269,46 @@ importers:
       '@biomejs/biome':
         specifier: 2.5.4
         version: 2.5.4
+
+  packages/example:
+    dependencies:
+      '@react-native-rethemed/chakra-ui-tokens':
+        specifier: workspace:*
+        version: link:../react-native-rethemed/chakra-ui
+      '@react-native-rethemed/core':
+        specifier: workspace:*
+        version: link:../react-native-rethemed/core
+      '@react-native-rethemed/material-design-tokens':
+        specifier: workspace:*
+        version: link:../react-native-rethemed/material-design
+      '@react-native-rethemed/panda-css-tokens':
+        specifier: workspace:*
+        version: link:../react-native-rethemed/panda-css
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 2.5.4
+        version: 2.5.4
+      '@react-native-rethemed/cli':
+        specifier: workspace:*
+        version: link:../react-native-rethemed/cli
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      biome-config:
+        specifier: workspace:*
+        version: link:../biome-config
+      react:
+        specifier: 'catalog:'
+        version: 19.2.3
+      react-native:
+        specifier: 'catalog:'
+        version: 0.86.2(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1)
+      react-native-safe-area-context:
+        specifier: 5.10.1
+        version: 5.10.1(react-native@0.86.2(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
 
   packages/react-native-rethemed/chakra-ui:
     dependencies:
@@ -9677,6 +9705,11 @@ snapshots:
   react-is@18.3.1: {}
 
   react-is@19.3.0: {}
+
+  react-native-safe-area-context@5.10.1(react-native@0.86.2(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3):
+    dependencies:
+      react: 19.2.3
+      react-native: 0.86.2(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1)
 
   react-native-safe-area-context@5.10.1(react-native@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3):
     dependencies:

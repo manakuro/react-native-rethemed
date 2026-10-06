@@ -23,6 +23,12 @@ jobs:
           - chakra-ui
           - material-design
           - panda-css
+        include:
+          # Library packages live under packages/react-native-rethemed/.
+          - path: packages/react-native-rethemed
+          # The shared playground screen used by apps/*.
+          - package: example
+            path: packages
     env:
       SAFE_CHAIN_LOGGING: silent
     steps:
@@ -36,8 +42,8 @@ jobs:
       # already cover breakage from upstream packages (e.g. core -> cli ->
       # token package examples), and Turborepo's cache keeps unchanged ones fast.
       - name: Lint
-        run: pnpm turbo run lint --filter=./packages/react-native-rethemed/${{ matrix.package }}
+        run: pnpm turbo run lint --filter=./${{ matrix.path }}/${{ matrix.package }}
       - name: Typecheck
-        run: pnpm turbo run tsc --filter=./packages/react-native-rethemed/${{ matrix.package }}
+        run: pnpm turbo run tsc --filter=./${{ matrix.path }}/${{ matrix.package }}
       - name: Test
-        run: pnpm turbo run test:ci --filter=./packages/react-native-rethemed/${{ matrix.package }}
+        run: pnpm turbo run test:ci --filter=./${{ matrix.path }}/${{ matrix.package }}

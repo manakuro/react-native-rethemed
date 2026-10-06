@@ -9,12 +9,13 @@
  *
  * Categories the theme doesn't define are listed in the summary and skipped.
  */
-import { Text, type TextStyle, View } from 'react-native';
+
 import {
   isTextPreset,
   type TextTokenTree,
   type UseThemedResult,
 } from '@react-native-rethemed/core';
+import { Text, type TextStyle, View } from 'react-native';
 import { useThemed as useShell } from '../shell/themed.gen';
 import type { ThemeEntry } from '../themes';
 import { Section, SubLabel, TokenLabel, TokenRow, Wrap } from './layout';
@@ -31,18 +32,18 @@ const isEmpty = (value: object | undefined) =>
 const CATEGORIES: { label: string; has: (theme: Theme) => boolean }[] = [
   {
     label: 'Semantic colors',
-    has: t => !isEmpty(t.semanticTokens.colors),
+    has: (t) => !isEmpty(t.semanticTokens.colors),
   },
-  { label: 'Primitive colors', has: t => !isEmpty(t.tokens.colors) },
-  { label: 'Spacing', has: t => !isEmpty(t.tokens.spacing) },
-  { label: 'Radii', has: t => !isEmpty(t.tokens.radii) },
-  { label: 'Text presets', has: t => !isEmpty(t.semanticTokens.text) },
-  { label: 'Font sizes', has: t => !isEmpty(t.tokens.fontSizes) },
-  { label: 'Font weights', has: t => !isEmpty(t.tokens.fontWeights) },
-  { label: 'Line heights', has: t => !isEmpty(t.tokens.lineHeights) },
-  { label: 'Letter spacings', has: t => !isEmpty(t.tokens.letterSpacings) },
-  { label: 'Shadows', has: t => !isEmpty(t.tokens.shadows) },
-  { label: 'Z-indices', has: t => !isEmpty(t.tokens.zIndices) },
+  { label: 'Primitive colors', has: (t) => !isEmpty(t.tokens.colors) },
+  { label: 'Spacing', has: (t) => !isEmpty(t.tokens.spacing) },
+  { label: 'Radii', has: (t) => !isEmpty(t.tokens.radii) },
+  { label: 'Text presets', has: (t) => !isEmpty(t.semanticTokens.text) },
+  { label: 'Font sizes', has: (t) => !isEmpty(t.tokens.fontSizes) },
+  { label: 'Font weights', has: (t) => !isEmpty(t.tokens.fontWeights) },
+  { label: 'Line heights', has: (t) => !isEmpty(t.tokens.lineHeights) },
+  { label: 'Letter spacings', has: (t) => !isEmpty(t.tokens.letterSpacings) },
+  { label: 'Shadows', has: (t) => !isEmpty(t.tokens.shadows) },
+  { label: 'Z-indices', has: (t) => !isEmpty(t.tokens.zIndices) },
 ];
 
 export function TokenShowcase({ entry }: { entry: ThemeEntry }) {
@@ -110,7 +111,7 @@ function Summary({ entry, theme }: { entry: ThemeEntry; theme: Theme }) {
           gap: 1.5,
         })}
       >
-        {CATEGORIES.map(category => {
+        {CATEGORIES.map((category) => {
           const has = category.has(theme);
           return (
             <View
@@ -212,7 +213,7 @@ function ColorStrip({
           borderRadius: 'sm',
         })}
       >
-        {tokens.map(token => (
+        {tokens.map((token) => (
           <View
             key={token}
             style={[
@@ -240,7 +241,7 @@ function SemanticColors({ theme }: { theme: Theme }) {
     counts.set(signature(group), (counts.get(signature(group)) ?? 0) + 1);
   }
   const isPalette = (group: string) => (counts.get(signature(group)) ?? 0) >= 3;
-  const roles = groups.filter(group => !isPalette(group));
+  const roles = groups.filter((group) => !isPalette(group));
   const palettes = groups.filter(isPalette);
 
   return (
@@ -248,11 +249,11 @@ function SemanticColors({ theme }: { theme: Theme }) {
       title="Semantic colors"
       description="semanticTokens.colors — switch with light/dark. Toggle the appearance in the menu to compare."
     >
-      {roles.map(group => (
+      {roles.map((group) => (
         <View key={group} style={shell.view({ gap: 2 })}>
           <SubLabel>{group}</SubLabel>
           <Wrap>
-            {Object.keys(colors[group]).map(token => (
+            {Object.keys(colors[group]).map((token) => (
               <Swatch
                 key={token}
                 theme={theme}
@@ -268,13 +269,13 @@ function SemanticColors({ theme }: { theme: Theme }) {
           <SubLabel>
             palettes · {Object.keys(colors[palettes[0]]).join(' · ')}
           </SubLabel>
-          {palettes.map(palette => (
+          {palettes.map((palette) => (
             <ColorStrip
               key={palette}
               theme={theme}
               label={palette}
               tokens={Object.keys(colors[palette]).map(
-                token => `${palette}.${token}`,
+                (token) => `${palette}.${token}`,
               )}
             />
           ))}
@@ -306,7 +307,7 @@ function PrimitiveColors({ theme }: { theme: Theme }) {
       description="tokens.colors — fixed, the same in light and dark."
     >
       <Wrap>
-        {singles.map(name => (
+        {singles.map((name) => (
           <Swatch key={name} theme={theme} token={name} value={colors[name]} />
         ))}
       </Wrap>
@@ -346,7 +347,7 @@ function TextPresets({ theme }: { theme: Theme }) {
       title="Text presets"
       description="semanticTokens.text — themed.text.<path>(override?)."
     >
-      {presetPaths(tree).map(path => {
+      {presetPaths(tree).map((path) => {
         // Walk `themed.text.title.md` by path; leaves are callable.
         const preset = path.reduce<unknown>(
           (node, key) => (node as Record<string, unknown>)[key],
@@ -379,7 +380,7 @@ function FontSizes({ theme }: { theme: Theme }) {
 
   return (
     <Section title="Font sizes" description="tokens.fontSizes — fontSize.">
-      {Object.keys(fontSizes).map(name => (
+      {Object.keys(fontSizes).map((name) => (
         <TokenRow key={name}>
           <TokenLabel name={name} value={fontSizes[name]} />
           <Text
@@ -407,7 +408,7 @@ function FontWeights({ theme }: { theme: Theme }) {
       title="Font weights"
       description="tokens.fontWeights — fontWeight."
     >
-      {Object.keys(fontWeights).map(name => (
+      {Object.keys(fontWeights).map((name) => (
         <TokenRow key={name}>
           <TokenLabel name={name} value={String(fontWeights[name])} />
           <Text
@@ -436,7 +437,7 @@ function LineHeights({ theme }: { theme: Theme }) {
       title="Line heights"
       description={`tokens.lineHeights — ratios of fontSize. Here fontSize is ${fontSize}.`}
     >
-      {Object.keys(lineHeights).map(name => (
+      {Object.keys(lineHeights).map((name) => (
         <TokenRow key={name}>
           <TokenLabel name={name} value={`×${lineHeights[name]}`} />
           <Text
@@ -467,7 +468,7 @@ function LetterSpacings({ theme }: { theme: Theme }) {
       title="Letter spacings"
       description="tokens.letterSpacings — letterSpacing."
     >
-      {Object.keys(letterSpacings).map(name => (
+      {Object.keys(letterSpacings).map((name) => (
         <TokenRow key={name}>
           <TokenLabel name={name} value={letterSpacings[name]} />
           <Text
@@ -498,7 +499,7 @@ function Spacing({ theme }: { theme: Theme }) {
   const spacing = theme.tokens.spacing;
   if (!spacing || isEmpty(spacing)) return null;
   const names = Object.keys(spacing)
-    .filter(name => spacing[name] >= 0)
+    .filter((name) => spacing[name] >= 0)
     .sort((a, b) => spacing[a] - spacing[b]);
 
   return (
@@ -506,7 +507,7 @@ function Spacing({ theme }: { theme: Theme }) {
       title="Spacing"
       description="tokens.spacing — padding*, margin*, gap. Each bar's width is paddingLeft: <token>."
     >
-      {names.map(name => (
+      {names.map((name) => (
         <TokenRow key={name}>
           <TokenLabel name={name} value={spacing[name]} />
           <View style={themed.view({ flex: 1, overflow: 'hidden' })}>
@@ -539,7 +540,7 @@ function Radii({ theme }: { theme: Theme }) {
       description="tokens.radii — borderRadius and corners."
     >
       <Wrap>
-        {Object.keys(radii).map(name => (
+        {Object.keys(radii).map((name) => (
           <View
             key={name}
             style={themed.view({ alignItems: 'center', gap: 1 })}
@@ -586,7 +587,7 @@ function Shadows({ theme }: { theme: Theme }) {
           padding: 2,
         })}
       >
-        {Object.keys(shadows).map(name => (
+        {Object.keys(shadows).map((name) => (
           <View
             key={name}
             style={[
@@ -630,7 +631,7 @@ function ZIndices({ theme }: { theme: Theme }) {
   const picks = [
     ...new Set(
       [0, 1 / 3, 2 / 3, 1].map(
-        at => sorted[Math.round(at * (sorted.length - 1))],
+        (at) => sorted[Math.round(at * (sorted.length - 1))],
       ),
     ),
   ].reverse();
@@ -678,7 +679,7 @@ function ZIndices({ theme }: { theme: Theme }) {
       <View
         style={themed.view({ flexDirection: 'row', flexWrap: 'wrap', gap: 2 })}
       >
-        {sorted.map(name => (
+        {sorted.map((name) => (
           <Text
             key={name}
             style={themed.text({ color: 'fg.muted', fontSize: 'xs' })}

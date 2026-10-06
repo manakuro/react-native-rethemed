@@ -1,5 +1,6 @@
 module.exports = {
   preset: '@react-native/jest-preset',
+  setupFiles: ['<rootDir>/jest.setup.js'],
   // pnpm stores packages under `node_modules/.pnpm/<id>/node_modules/<name>`,
   // which the preset's default pattern doesn't account for.
   transformIgnorePatterns: [
@@ -10,6 +11,8 @@ module.exports = {
   moduleNameMapper: {
     '^react$': '<rootDir>/node_modules/react',
     '^react-native$': '<rootDir>/node_modules/react-native',
+    '^react-native-safe-area-context$':
+      '<rootDir>/node_modules/react-native-safe-area-context',
     '^@babel/runtime/(.*)$': '<rootDir>/node_modules/@babel/runtime/$1',
   },
 };

@@ -5,11 +5,12 @@
  * 2. Add its codegen command to the `theme:codegen` script and run it.
  * 3. Add an entry below.
  */
-import type { ComponentType } from 'react';
+
 import type {
   ThemedProviderProps,
   UseThemedResult,
 } from '@react-native-rethemed/core';
+import type { ComponentType } from 'react';
 import { ChakraUiPreview } from './chakra-ui/Preview';
 import * as chakraUi from './chakra-ui/themed.gen';
 import * as materialDesign from './material-design/themed.gen';

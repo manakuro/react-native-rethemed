@@ -82,7 +82,7 @@ function Badges() {
     <View
       style={themed.view({ flexDirection: 'row', flexWrap: 'wrap', gap: 2 })}
     >
-      {STATUSES.map(status => (
+      {STATUSES.map((status) => (
         <View
           key={status.label}
           style={themed.view({

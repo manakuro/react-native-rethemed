@@ -1,6 +1,7 @@
 /** system / light / dark segmented control for the playground. */
-import { Pressable, Text, View } from 'react-native';
+
 import type { ColorMode } from '@react-native-rethemed/core';
+import { Pressable, Text, View } from 'react-native';
 import { useColorMode, useThemed } from '../shell/themed.gen';
 
 const COLOR_MODES: ColorMode[] = ['system', 'light', 'dark'];
@@ -19,7 +20,7 @@ export function ColorModeSwitch() {
         backgroundColor: 'bg.subtle',
       })}
     >
-      {COLOR_MODES.map(item => {
+      {COLOR_MODES.map((item) => {
         const selected = item === mode;
         return (
           <Pressable
