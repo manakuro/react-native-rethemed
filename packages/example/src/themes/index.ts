@@ -17,6 +17,8 @@ import * as materialDesign from './material-design/themed.gen';
 import { MaterialUiPreview } from './material-ui/Preview';
 import * as materialUi from './material-ui/themed.gen';
 import * as pandaCss from './panda-css/themed.gen';
+import { RadixUiPreview } from './radix-ui/Preview';
+import * as radixUi from './radix-ui/themed.gen';
 import { ShadcnUiPreview } from './shadcn-ui/Preview';
 import * as shadcnUi from './shadcn-ui/themed.gen';
 import * as tailwindCss from './tailwind-css/themed.gen';
@@ -96,5 +98,15 @@ export const THEMES: ThemeEntry[] = [
     ThemedProvider: shadcnUi.ThemedProvider,
     useThemed: loose(shadcnUi.useThemed),
     Preview: ShadcnUiPreview,
+  },
+  {
+    id: 'radix-ui',
+    name: 'Radix UI',
+    packageName: '@react-native-rethemed/radix-ui-tokens',
+    description:
+      "Radix Themes' defaults via createRadixUiTheme(): indigo accent and slate gray scales (light/dark), panel colors, space, radius and Text/Heading presets, plus green/amber/red scales.",
+    ThemedProvider: radixUi.ThemedProvider,
+    useThemed: loose(radixUi.useThemed),
+    Preview: RadixUiPreview,
   },
 ];

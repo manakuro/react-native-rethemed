@@ -26,6 +26,7 @@ jobs:
           - panda-css
           - tailwind-css
           - shadcn-ui
+          - radix-ui
         include:
           # Library packages live under packages/react-native-rethemed/.
           - path: packages/react-native-rethemed

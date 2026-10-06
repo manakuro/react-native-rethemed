@@ -101,6 +101,18 @@ pre-commit:
       root: packages/react-native-rethemed/shadcn-ui/
       glob: "*.{ts,tsx}"
       run: npx tsc --noEmit
+    radix-ui/lint:
+      tags: radix-ui
+      root: packages/react-native-rethemed/radix-ui/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    radix-ui/tsc:
+      tags: radix-ui
+      root: packages/react-native-rethemed/radix-ui/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
     example/lint:
       tags: example
       root: packages/example/
