@@ -11,6 +11,7 @@ export {
   RN_DEFAULT_FONT_SIZE,
   resolveBaseFontSize,
 } from './resolvers/line-height-resolver';
+export { isSchemeColor, walkSemanticColors } from './semantic-colors';
 export {
   COLOR_KEYS,
   FONT_SIZE_KEYS,
@@ -30,6 +31,8 @@ export {
 } from './text-tree';
 export type {
   LooseSchema,
+  SchemeColor,
+  SemanticColors,
   ShadowToken,
   TextColor,
   TextToken,

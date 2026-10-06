@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import {
   type ThemeConfig,
+  walkSemanticColors,
   walkTextPresets,
 } from '@react-native-rethemed/core/config';
 import { generateDocs } from './docs';
@@ -90,11 +91,13 @@ function countPresets(config: ThemeConfig): number {
 
 export function countTokens(config: ThemeConfig): TokenCounts {
   const tokens = config.tokens ?? {};
-  const nested = (table: Record<string, object> | undefined) =>
-    Object.values(table ?? {}).reduce((sum, inner) => sum + size(inner), 0);
+  let colors = 0;
+  walkSemanticColors(config.semanticTokens?.colors, () => {
+    colors += 1;
+  });
 
   return {
-    colors: nested(config.semanticTokens?.colors),
+    colors,
     primitiveColors: size(tokens.colors),
     radii: size(tokens.radii),
     spacing: size(tokens.spacing),

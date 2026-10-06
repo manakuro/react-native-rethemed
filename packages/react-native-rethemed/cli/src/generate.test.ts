@@ -98,6 +98,28 @@ describe('generate', () => {
     expect(source).toContain("textTransform: 'uppercase';");
   });
 
+  it('types top-level semantic colors by their bare name', () => {
+    const source = generate({
+      config: {
+        semanticTokens: {
+          colors: {
+            primary: { light: '#171717', dark: '#e5e5e5' },
+            'primary-foreground': { light: '#fafafa', dark: '#171717' },
+            fg: { default: { light: '#111111', dark: '#ffffff' } },
+          },
+        },
+      },
+      themeImport: { specifier: './theme', exportName: 'themeConfig' },
+    });
+    expect(source).toContain(
+      "export type SemanticColorToken = 'primary' | 'primary-foreground' | 'fg.default';",
+    );
+    // useThemed().semanticTokens.colors keeps the shape: string vs group.
+    expect(source).toMatch(/\n {4}primary: string;/);
+    expect(source).toMatch(/\n {4}'primary-foreground': string;/);
+    expect(source).toMatch(/\n {4}fg: \{\n[\s\S]*?\n {6}default: string;/);
+  });
+
   it('shows a palette as a hue × shade grid', () => {
     const source = generate({
       config: {

@@ -84,6 +84,31 @@ describe('generateDocs', () => {
     );
   });
 
+  it('documents top-level semantic colors (shadcn/ui style)', () => {
+    const docs = generateDocs({
+      config: {
+        semanticTokens: {
+          colors: {
+            background: { light: '#ffffff', dark: '#0a0a0a' },
+            foreground: { light: '#0a0a0a', dark: '#fafafa' },
+            'primary-foreground': { light: '#fafafa', dark: '#171717' },
+          },
+        },
+      },
+      themeFile: 'theme.ts',
+      genFile: 'themed.gen.ts',
+    });
+    expect(docs).toContain("Use by name (`'<token>'`) on `color`");
+    expect(docs).toContain('| `primary-foreground` | #fafafa | #171717 |');
+    expect(docs).not.toMatch(/^### $/m);
+    expect(docs).toContain(
+      "`useThemed().semanticTokens.colors.<token>` (`colors['primary-foreground']` for names with a hyphen)",
+    );
+    // The usage example picks `background` / `foreground`.
+    expect(docs).toContain("backgroundColor: 'background'");
+    expect(docs).toContain("color: 'foreground'");
+  });
+
   it('explains overriding a preset size for token and absolute line heights', () => {
     // The fixture has both: `title.md` (lineHeight: 24) and `body.md` ('moderate').
     const docs = fixture();

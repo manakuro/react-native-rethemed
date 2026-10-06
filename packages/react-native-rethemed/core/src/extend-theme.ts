@@ -1,13 +1,13 @@
+import { isSchemeColor } from './semantic-colors';
 import { isTextPreset } from './text-tree';
-import type { TextTokenTree, ThemeConfig } from './types';
+import type { SemanticColors, TextTokenTree, ThemeConfig } from './types';
 
 type Table = Record<string, unknown>;
-type NestedTable = Record<string, Table>;
 
 /**
  * Flat `tokens` categories: a one-level merge (`{ ...a, ...b }`, `b` wins per
- * key) is enough. `semanticTokens.colors` is two levels deep and merged one
- * level deeper; `semanticTokens.text` is a tree of any depth — see
+ * key) is enough. `semanticTokens.colors` holds groups (merged one level
+ * deeper) and top-level colors (replaced whole); `semanticTokens.text` is a tree of any depth — see
  * `mergeTextTree`.
  *
  * Merging is runtime-only: the result is typed as the plain `ThemeConfig`,
@@ -32,16 +32,25 @@ function mergeFlat(a: Table | undefined, b: Table | undefined) {
 }
 
 /**
- * `colors.<group>.<token>`: groups are merged, tokens replaced whole, so
- * overriding `bg.default` keeps `bg.subtle` and every other group.
+ * `semanticTokens.colors`: groups are merged, colors replaced whole, so
+ * overriding `bg.default` keeps `bg.subtle` and every other group. A
+ * top-level color (`primary`) is replaced like a token; when a name is a
+ * color on one side and a group on the other, the later side replaces it.
  */
-function mergeNested(a: NestedTable | undefined, b: NestedTable | undefined) {
+function mergeSemanticColors(
+  a: SemanticColors | undefined,
+  b: SemanticColors | undefined,
+) {
   if (!a) return b;
   if (!b) return a;
 
-  const result: NestedTable = { ...a };
-  for (const key of Object.keys(b)) {
-    result[key] = key in result ? { ...result[key], ...b[key] } : b[key];
+  const result: SemanticColors = { ...a };
+  for (const [key, next] of Object.entries(b)) {
+    const prev = result[key];
+    result[key] =
+      prev && !isSchemeColor(prev) && !isSchemeColor(next)
+        ? { ...prev, ...next }
+        : next;
   }
   return result;
 }
@@ -89,7 +98,7 @@ function mergeSemanticTokens(
   a: ThemeConfig['semanticTokens'],
   b: ThemeConfig['semanticTokens'],
 ): ThemeConfig['semanticTokens'] {
-  const colors = mergeNested(a?.colors, b?.colors);
+  const colors = mergeSemanticColors(a?.colors, b?.colors);
   const text = mergeTextTree(a?.text, b?.text);
   return {
     ...(colors ? { colors } : {}),

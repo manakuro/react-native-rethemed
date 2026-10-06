@@ -1,8 +1,10 @@
 import {
+  isSchemeColor,
   isTextPreset,
   TEXT_TOKEN_FIELDS,
   type TextTokenTree,
   type ThemeConfig,
+  walkSemanticColors,
   walkTextPresets,
 } from '@react-native-rethemed/core/config';
 
@@ -209,15 +211,24 @@ export function validateTheme(config: ThemeConfig): string[] {
     );
   }
 
-  for (const [group, colors] of Object.entries(
+  const checkSchemes = (value: unknown, token: string) => {
+    const color = value as { light?: unknown; dark?: unknown } | null;
+    if (typeof color?.light !== 'string' || typeof color?.dark !== 'string') {
+      problems.push(
+        `semanticTokens.colors.${token}: must define both 'light' and 'dark' strings`,
+      );
+    }
+  };
+  for (const [key, node] of Object.entries(
     config.semanticTokens?.colors ?? {},
   )) {
-    for (const [name, value] of Object.entries(colors)) {
-      if (typeof value?.light !== 'string' || typeof value?.dark !== 'string') {
-        problems.push(
-          `semanticTokens.colors.${group}.${name}: must define both 'light' and 'dark' strings`,
-        );
-      }
+    // A top-level color (`primary`) or a group of them (`bg.default`).
+    if (isSchemeColor(node) || typeof node !== 'object' || node === null) {
+      checkSchemes(node, key);
+      continue;
+    }
+    for (const [name, value] of Object.entries(node)) {
+      checkSchemes(value, `${key}.${name}`);
     }
   }
 
@@ -233,17 +244,12 @@ export function validateTheme(config: ThemeConfig): string[] {
 export function themeWarnings(config: ThemeConfig): string[] {
   const primitives = config.tokens?.colors ?? {};
   const warnings: string[] = [];
-  for (const [group, names] of Object.entries(
-    config.semanticTokens?.colors ?? {},
-  )) {
-    for (const name of Object.keys(names)) {
-      const token = `${group}.${name}`;
-      if (Object.hasOwn(primitives, token)) {
-        warnings.push(
-          `'${token}' is both a semantic color and a primitive color (tokens.colors); color props resolve it to the semantic color`,
-        );
-      }
+  walkSemanticColors(config.semanticTokens?.colors, (token) => {
+    if (Object.hasOwn(primitives, token)) {
+      warnings.push(
+        `'${token}' is both a semantic color and a primitive color (tokens.colors); color props resolve it to the semantic color`,
+      );
     }
-  }
+  });
   return warnings;
 }

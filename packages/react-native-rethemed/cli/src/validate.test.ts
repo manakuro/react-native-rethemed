@@ -44,6 +44,38 @@ describe('validateTheme', () => {
     ]);
   });
 
+  it('accepts top-level semantic colors next to groups', () => {
+    expect(
+      validateTheme({
+        semanticTokens: {
+          colors: {
+            primary: { light: '#171717', dark: '#e5e5e5' },
+            'primary-foreground': { light: '#fafafa', dark: '#171717' },
+            fg: { default: { light: '#111', dark: '#fff' } },
+          },
+        },
+      }),
+    ).toEqual([]);
+  });
+
+  it('rejects top-level semantic colors missing a scheme or not objects', () => {
+    expect(
+      validateTheme({
+        semanticTokens: {
+          colors: {
+            // @ts-expect-error -- missing `dark` on purpose
+            primary: { light: '#171717' },
+            // @ts-expect-error -- not a { light, dark } color
+            ring: '#a1a1a1',
+          },
+        },
+      }),
+    ).toEqual([
+      "semanticTokens.colors.primary: must define both 'light' and 'dark' strings",
+      "semanticTokens.colors.ring: must define both 'light' and 'dark' strings",
+    ]);
+  });
+
   it('rejects a defaults.fontSize that is not a fontSizes key', () => {
     expect(
       validateTheme({
@@ -94,7 +126,7 @@ describe('validateTheme', () => {
         },
       }),
     ).toEqual([
-      'semanticTokens.text.body.md.fontsize: unknown preset field (expected fontSize, lineHeight, letterSpacing, fontWeight, color)',
+      'semanticTokens.text.body.md.fontsize: unknown preset field (expected fontSize, lineHeight, letterSpacing, fontWeight, textTransform, color)',
       'semanticTokens.text.caption: is empty',
     ]);
   });

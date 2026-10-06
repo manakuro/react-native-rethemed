@@ -63,6 +63,19 @@ export type TextToken = {
   color?: TextColor;
 };
 
+/** One semantic color: its value in each scheme. */
+export type SchemeColor = { light: string; dark: string };
+
+/**
+ * `semanticTokens.colors`: groups of colors (`bg.default`) and top-level
+ * colors (`primary`), in any mix. See `isSchemeColor` for how they are told
+ * apart.
+ */
+export type SemanticColors = Record<
+  string,
+  SchemeColor | Record<string, SchemeColor>
+>;
+
 /** `TextToken['color']`: one raw color, or one per scheme. */
 export type TextColor = string | { light?: string; dark?: string };
 
@@ -171,10 +184,11 @@ export type ThemeConfig = {
   /** Role-named values built on top of `tokens`. */
   semanticTokens?: {
     /**
-     * group -> token -> scheme. Used in styles as `'group.token'`
-     * (`themed.view({ backgroundColor: 'bg.subtle' })`) and switched with
-     * the current light/dark scheme. Takes precedence over a
-     * `tokens.colors` entry with the same name.
+     * group -> token -> scheme, used in styles as `'group.token'`
+     * (`themed.view({ backgroundColor: 'bg.subtle' })`), or token -> scheme
+     * at the top level, used by its bare name (`'primary-foreground'`, as in
+     * shadcn/ui). Switched with the current light/dark scheme. Takes
+     * precedence over a `tokens.colors` entry with the same name.
      *
      * @example
      * colors: {
@@ -185,9 +199,11 @@ export type ThemeConfig = {
      *   fg: {
      *     default: { light: '#111111', dark: '#fafafa' },
      *   },
+     *   // top level: themed.view({ backgroundColor: 'primary' })
+     *   primary: { light: '#171717', dark: '#e5e5e5' },
      * }
      */
-    colors?: Record<string, Record<string, { light: string; dark: string }>>;
+    colors?: SemanticColors;
     /**
      * Typography presets, as a tree of any depth. A node whose values are
      * all primitives is a **preset** (`TextToken`); a node of objects is a
@@ -309,7 +325,7 @@ export type LooseSchema = {
   textVariants: LooseTextVariants;
   tokens: NonNullable<ThemeConfig['tokens']>;
   semanticTokens: {
-    colors: Record<string, Record<string, string>>;
+    colors: Record<string, string | Record<string, string>>;
     text: NonNullable<NonNullable<ThemeConfig['semanticTokens']>['text']>;
   };
 };

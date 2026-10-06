@@ -2,10 +2,12 @@ import {
   COLOR_KEYS,
   FONT_SIZE_KEYS,
   FONT_WEIGHT_KEYS,
+  isSchemeColor,
   isTextPreset,
   LETTER_SPACING_KEYS,
   LINE_HEIGHT_KEYS,
   RADIUS_KEYS,
+  type SchemeColor,
   SPACING_KEYS,
   type TextColor,
   type TextTokenTree,
@@ -223,20 +225,22 @@ export function generate({
   const variants = emitTextNodes(model.text, 1);
 
   // --- useThemed().semanticTokens -------------------------------------------
+  const colorField = (name: string, color: SchemeColor, indent: string) => {
+    const doc = table(
+      ['light', 'dark'],
+      ['left', 'left'],
+      [[color.light, color.dark]],
+    );
+    return `${jsdoc(doc, indent)}\n${indent}${member(name)}: string;`;
+  };
   const semanticColorType = Object.entries(semanticColors)
-    .map(([group, names]) => {
-      const inner = INDENT.repeat(3);
-      const fields = Object.entries(names)
-        .map(([name, v]) => {
-          const doc = table(
-            ['light', 'dark'],
-            ['left', 'left'],
-            [[v.light, v.dark]],
-          );
-          return `${jsdoc(doc, inner)}\n${inner}${member(name)}: string;`;
-        })
+    .map(([key, node]) => {
+      // A top-level color resolves to a string; a group to an object.
+      if (isSchemeColor(node)) return colorField(key, node, INDENT.repeat(2));
+      const fields = Object.entries(node)
+        .map(([name, color]) => colorField(name, color, INDENT.repeat(3)))
         .join('\n');
-      return `${INDENT.repeat(2)}${member(group)}: {\n${fields}\n${INDENT.repeat(2)}};`;
+      return `${INDENT.repeat(2)}${member(key)}: {\n${fields}\n${INDENT.repeat(2)}};`;
     })
     .join('\n');
 

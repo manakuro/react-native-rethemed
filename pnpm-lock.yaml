@@ -290,6 +290,9 @@ importers:
       '@react-native-rethemed/panda-css-tokens':
         specifier: workspace:*
         version: link:../react-native-rethemed/panda-css
+      '@react-native-rethemed/shadcn-ui-tokens':
+        specifier: workspace:*
+        version: link:../react-native-rethemed/shadcn-ui
       '@react-native-rethemed/tailwind-css-tokens':
         specifier: workspace:*
         version: link:../react-native-rethemed/tailwind-css
@@ -509,6 +512,52 @@ importers:
       '@pandacss/preset-panda':
         specifier: 2.0.0
         version: 2.0.0
+      '@react-native-rethemed/cli':
+        specifier: workspace:*
+        version: link:../cli
+      '@types/culori':
+        specifier: 4.0.1
+        version: 4.0.1
+      '@types/node':
+        specifier: 24.10.4
+        version: 24.10.4
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      biome-config:
+        specifier: workspace:*
+        version: link:../../biome-config
+      culori:
+        specifier: 4.0.2
+        version: 4.0.2
+      jiti:
+        specifier: 2.7.0
+        version: 2.7.0
+      react:
+        specifier: 'catalog:'
+        version: 19.2.3
+      react-native:
+        specifier: 'catalog:'
+        version: 0.86.2(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@24.10.4)(vite@8.3.1(@types/node@24.10.4)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+
+  packages/react-native-rethemed/shadcn-ui:
+    dependencies:
+      '@react-native-rethemed/core':
+        specifier: workspace:*
+        version: link:../core
+      '@react-native-rethemed/tailwind-css-tokens':
+        specifier: workspace:*
+        version: link:../tailwind-css
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 2.5.4
+        version: 2.5.4
       '@react-native-rethemed/cli':
         specifier: workspace:*
         version: link:../cli

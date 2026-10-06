@@ -1,3 +1,4 @@
+import { walkSemanticColors } from '../semantic-colors';
 import {
   COLOR_KEYS,
   FONT_SIZE_KEYS,
@@ -8,7 +9,7 @@ import {
   Z_INDEX_KEYS,
 } from '../style-props';
 import type { ThemeConfig } from '../types';
-import { type ColorScheme, resolveSemanticColors } from './color-resolver';
+import type { ColorScheme } from './color-resolver';
 import { resolveBaseFontSize } from './line-height-resolver';
 
 type Table = Record<string, unknown>;
@@ -51,13 +52,9 @@ export function createStyleResolver(config: ThemeConfig, scheme: ColorScheme) {
   // go in first, so a semantic color with the same name wins (the CLI warns
   // about such collisions).
   const colors: Record<string, string> = { ...tokens.colors };
-  for (const [group, names] of Object.entries(
-    resolveSemanticColors(config, scheme),
-  )) {
-    for (const [name, value] of Object.entries(names)) {
-      colors[`${group}.${name}`] = value;
-    }
-  }
+  walkSemanticColors(config.semanticTokens?.colors, (token, color) => {
+    colors[token] = color[scheme];
+  });
   if (tokens.colors || config.semanticTokens?.colors) {
     register(COLOR_KEYS, colors);
   }

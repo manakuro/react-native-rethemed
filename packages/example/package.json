@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "theme:codegen": "react-native-rethemed codegen src/shell/theme.ts && react-native-rethemed codegen src/themes/chakra-ui/theme.ts --docs docs/themes/chakra-ui.md && react-native-rethemed codegen src/themes/material-ui/theme.ts --docs docs/themes/material-ui.md && react-native-rethemed codegen src/themes/material-design/theme.ts --docs docs/themes/material-design.md && react-native-rethemed codegen src/themes/panda-css/theme.ts --docs docs/themes/panda-css.md && react-native-rethemed codegen src/themes/tailwind-css/theme.ts --docs docs/themes/tailwind-css.md",
+    "theme:codegen": "react-native-rethemed codegen src/shell/theme.ts && react-native-rethemed codegen src/themes/chakra-ui/theme.ts --docs docs/themes/chakra-ui.md && react-native-rethemed codegen src/themes/material-ui/theme.ts --docs docs/themes/material-ui.md && react-native-rethemed codegen src/themes/material-design/theme.ts --docs docs/themes/material-design.md && react-native-rethemed codegen src/themes/panda-css/theme.ts --docs docs/themes/panda-css.md && react-native-rethemed codegen src/themes/tailwind-css/theme.ts --docs docs/themes/tailwind-css.md && react-native-rethemed codegen src/themes/shadcn-ui/theme.ts --docs docs/themes/shadcn-ui.md",
     "prepare": "pnpm run theme:codegen",
     "lint": "biome check src",
     "lint:fix": "biome check --write --unsafe src",
@@ -19,6 +19,7 @@
     "@react-native-rethemed/material-design-tokens": "workspace:*",
     "@react-native-rethemed/material-ui-tokens": "workspace:*",
     "@react-native-rethemed/panda-css-tokens": "workspace:*",
+    "@react-native-rethemed/shadcn-ui-tokens": "workspace:*",
     "@react-native-rethemed/tailwind-css-tokens": "workspace:*"
   },
   "peerDependencies": {

@@ -71,11 +71,17 @@ function usageSection(model: TokenModel, genFile: string): Section {
   // type-checks. Categories the theme does not define are left out.
   // Semantic colors are preferred; a primitive stands in when there are none.
   const bg =
-    (model.colors.find((c) => c.group === 'bg') ?? model.colors[0])?.token ??
-    primitiveFor(model, 'white');
+    (
+      model.colors.find((c) => c.group === 'bg') ??
+      model.colors.find((c) => c.token === 'background') ??
+      model.colors[0]
+    )?.token ?? primitiveFor(model, 'white');
   const fg =
-    (model.colors.find((c) => c.group === 'fg') ?? model.colors[0])?.token ??
-    primitiveFor(model, 'black');
+    (
+      model.colors.find((c) => c.group === 'fg') ??
+      model.colors.find((c) => c.token === 'foreground') ??
+      model.colors[0]
+    )?.token ?? primitiveFor(model, 'black');
   const radius =
     model.radii.find(([k]) => k === 'md')?.[0] ??
     model.radii[Math.floor(model.radii.length / 2)]?.[0];
@@ -174,8 +180,14 @@ function usageSection(model: TokenModel, genFile: string): Section {
     return [];
   })();
 
+  const semanticPath = {
+    grouped: '`useThemed().semanticTokens.colors.<group>.<token>`',
+    flat: "`useThemed().semanticTokens.colors.<token>` (`colors['primary-foreground']` for names with a hyphen)",
+    mixed:
+      '`useThemed().semanticTokens.colors.<group>.<token>` (`.colors.<token>` for colors outside a group)',
+  }[colorNaming(model)];
   const outsideStyleRule = hasSemanticColors
-    ? '- Outside `style` (e.g. an icon `color` prop), read resolved values from `useThemed().semanticTokens.colors.<group>.<token>` or `useThemed().tokens`.'
+    ? `- Outside \`style\` (e.g. an icon \`color\` prop), read resolved values from ${semanticPath} or \`useThemed().tokens\`.`
     : '- Outside `style` (e.g. an icon `color` prop), read values from `useThemed().tokens`.';
 
   return {
@@ -217,13 +229,33 @@ function usageSection(model: TokenModel, genFile: string): Section {
   };
 }
 
+/**
+ * How the theme names its semantic colors: all in groups (`'bg.default'`),
+ * all top-level (`'primary'`, as in shadcn/ui), or both.
+ */
+function colorNaming(model: TokenModel): 'grouped' | 'flat' | 'mixed' {
+  const flat = model.colors.filter((c) => c.group === '').length;
+  if (flat === 0) return 'grouped';
+  return flat === model.colors.length ? 'flat' : 'mixed';
+}
+
 function colorSection(model: TokenModel): Section | null {
   if (model.colors.length === 0) return null;
-  const groups = [...new Set(model.colors.map((c) => c.group))];
+  const groups = [...new Set(model.colors.map((c) => c.group))].filter(
+    (group) => group !== '',
+  );
+  const flat = model.colors.filter((c) => c.group === '');
+  const usage = {
+    grouped: "Use as `'<group>.<token>'`",
+    flat: "Use by name (`'<token>'`)",
+    mixed:
+      "Use as `'<group>.<token>'`, or by name (`'<token>'`) for colors outside a group,",
+  }[colorNaming(model)];
   return {
     title: 'Semantic colors',
     body: [
-      "Use as `'<group>.<token>'` on `color`, `backgroundColor`, `border*Color`, `tintColor`, `overlayColor`, `shadowColor`, `textShadowColor`, `textDecorationColor` and `outlineColor`.",
+      `${usage} on \`color\`, \`backgroundColor\`, \`border*Color\`, \`tintColor\`, \`overlayColor\`, \`shadowColor\`, \`textShadowColor\`, \`textDecorationColor\` and \`outlineColor\`.`,
+      ...(flat.length > 0 ? ['', ...colorTable(flat)] : []),
       ...groups.flatMap((group) => [
         '',
         `### ${group}`,

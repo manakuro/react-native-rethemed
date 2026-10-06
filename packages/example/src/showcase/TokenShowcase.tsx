@@ -232,10 +232,23 @@ function SemanticColors({ theme }: { theme: Theme }) {
   const colors = theme.semanticTokens.colors;
   if (isEmpty(colors)) return null;
 
+  // Top-level colors (shadcn/ui's `primary`, `primary-foreground`) resolve
+  // to strings; groups (`bg`, `fg`, …) to objects.
+  const topLevel = Object.entries(colors).filter(
+    (entry): entry is [string, string] => typeof entry[1] === 'string',
+  );
+  const groupColors = Object.fromEntries(
+    Object.entries(colors).filter(
+      (entry): entry is [string, Record<string, string>] =>
+        typeof entry[1] === 'object',
+    ),
+  );
+
   // Groups sharing the same token names (gray, red, … in Chakra UI) are
   // color palettes and shown as strips; the rest (bg, fg, …) as swatches.
-  const groups = Object.keys(colors);
-  const signature = (group: string) => Object.keys(colors[group]).join(',');
+  const groups = Object.keys(groupColors);
+  const signature = (group: string) =>
+    Object.keys(groupColors[group]).join(',');
   const counts = new Map<string, number>();
   for (const group of groups) {
     counts.set(signature(group), (counts.get(signature(group)) ?? 0) + 1);
@@ -249,16 +262,23 @@ function SemanticColors({ theme }: { theme: Theme }) {
       title="Semantic colors"
       description="semanticTokens.colors — switch with light/dark. Toggle the appearance in the menu to compare."
     >
+      {topLevel.length > 0 ? (
+        <Wrap>
+          {topLevel.map(([token, value]) => (
+            <Swatch key={token} theme={theme} token={token} value={value} />
+          ))}
+        </Wrap>
+      ) : null}
       {roles.map((group) => (
         <View key={group} style={shell.view({ gap: 2 })}>
           <SubLabel>{group}</SubLabel>
           <Wrap>
-            {Object.keys(colors[group]).map((token) => (
+            {Object.keys(groupColors[group]).map((token) => (
               <Swatch
                 key={token}
                 theme={theme}
                 token={`${group}.${token}`}
-                value={colors[group][token]}
+                value={groupColors[group][token]}
               />
             ))}
           </Wrap>
@@ -267,14 +287,14 @@ function SemanticColors({ theme }: { theme: Theme }) {
       {palettes.length > 0 ? (
         <>
           <SubLabel>
-            palettes · {Object.keys(colors[palettes[0]]).join(' · ')}
+            palettes · {Object.keys(groupColors[palettes[0]]).join(' · ')}
           </SubLabel>
           {palettes.map((palette) => (
             <ColorStrip
               key={palette}
               theme={theme}
               label={palette}
-              tokens={Object.keys(colors[palette]).map(
+              tokens={Object.keys(groupColors[palette]).map(
                 (token) => `${palette}.${token}`,
               )}
             />

@@ -7,6 +7,7 @@ import {
   type TextToken,
   type TextTokenTree,
   type ThemeConfig,
+  walkSemanticColors,
   walkTextPresets,
 } from '@react-native-rethemed/core/config';
 import { code, orderedEntries, table } from './emit';
@@ -17,7 +18,10 @@ import { code, orderedEntries, table } from './emit';
  * two can never disagree.
  */
 export type TokenModel = {
-  /** `semanticTokens.colors`, flattened to `'group.token'`. */
+  /**
+   * `semanticTokens.colors`, flattened to `'group.token'` (or the bare name
+   * for a top-level color, whose `group` is `''`).
+   */
   colors: { token: string; group: string; light: string; dark: string }[];
   radii: [string, number][];
   spacing: [string, number][];
@@ -112,15 +116,7 @@ export function buildModel(config: ThemeConfig): TokenModel {
         : `${RN_DEFAULT_FONT_SIZE} (React Native default)`;
 
   return {
-    colors: Object.entries(config.semanticTokens?.colors ?? {}).flatMap(
-      ([group, names]) =>
-        Object.entries(names).map(([name, v]) => ({
-          token: `${group}.${name}`,
-          group,
-          light: v.light,
-          dark: v.dark,
-        })),
-    ),
+    colors: semanticColorRows(config),
     radii: orderedEntries(tokens.radii, byValue),
     spacing: orderedEntries(tokens.spacing, byValue),
     fontSizes: orderedEntries(tokens.fontSizes, byValue),
@@ -136,6 +132,19 @@ export function buildModel(config: ThemeConfig): TokenModel {
     presetLineHeights: presetLineHeightKinds(config),
     baseFontSize: { value: baseFontSize, label: baseLabel },
   };
+}
+
+function semanticColorRows(config: ThemeConfig): TokenModel['colors'] {
+  const rows: TokenModel['colors'] = [];
+  walkSemanticColors(config.semanticTokens?.colors, (token, color, group) => {
+    rows.push({
+      token,
+      group: group ?? '',
+      light: color.light,
+      dark: color.dark,
+    });
+  });
+  return rows;
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;

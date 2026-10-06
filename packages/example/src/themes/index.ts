@@ -17,6 +17,8 @@ import * as materialDesign from './material-design/themed.gen';
 import { MaterialUiPreview } from './material-ui/Preview';
 import * as materialUi from './material-ui/themed.gen';
 import * as pandaCss from './panda-css/themed.gen';
+import { ShadcnUiPreview } from './shadcn-ui/Preview';
+import * as shadcnUi from './shadcn-ui/themed.gen';
 import * as tailwindCss from './tailwind-css/themed.gen';
 
 export type ThemeEntry = {
@@ -84,5 +86,15 @@ export const THEMES: ThemeEntry[] = [
       'The default theme.css: color palette, spacing, radii, text-* presets with paired line heights, font weights, leading, tracking and shadows.',
     ThemedProvider: tailwindCss.ThemedProvider,
     useThemed: loose(tailwindCss.useThemed),
+  },
+  {
+    id: 'shadcn-ui',
+    name: 'shadcn/ui',
+    packageName: '@react-native-rethemed/shadcn-ui-tokens',
+    description:
+      "Tailwind CSS with shadcn/ui's semantic colors (base color neutral) and radius scale, named like the class names: 'primary', 'primary-foreground', 'muted-foreground'.",
+    ThemedProvider: shadcnUi.ThemedProvider,
+    useThemed: loose(shadcnUi.useThemed),
+    Preview: ShadcnUiPreview,
   },
 ];

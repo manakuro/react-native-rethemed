@@ -89,6 +89,18 @@ pre-commit:
       root: packages/react-native-rethemed/tailwind-css/
       glob: "*.{ts,tsx}"
       run: npx tsc --noEmit
+    shadcn-ui/lint:
+      tags: shadcn-ui
+      root: packages/react-native-rethemed/shadcn-ui/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    shadcn-ui/tsc:
+      tags: shadcn-ui
+      root: packages/react-native-rethemed/shadcn-ui/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
     example/lint:
       tags: example
       root: packages/example/
