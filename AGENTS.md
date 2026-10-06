@@ -1,0 +1,127 @@
+# AGENTS.md
+
+This file provides guidance to AI coding assistants when working with this repository.
+
+## Supported AI Assistants
+
+This file is referenced by multiple AI coding assistants:
+
+- **Claude Code** (claude.ai/code) — Also reads `CLAUDE.md` for additional instructions
+- **GitHub Copilot** — Workspace-level instructions
+- **Cursor** — Project rules and context
+- **Windsurf** — Codebase instructions
+- **Other AI assistants** — Following the AGENTS.md convention
+
+> **Note**: Claude Code reads both `AGENTS.md` and `CLAUDE.md`. If you need Claude-specific instructions, add them to `CLAUDE.md`. Instructions in `AGENTS.md` apply to all AI assistants.
+
+---
+
+## Project Overview
+
+`react-native-rethemed` — design tokens for React Native style props, with no wrapper components. A theme is declared with `defineTheme`, the CLI generates typed bindings (`themed.gen.ts`), and components resolve tokens through `themed.view({ padding: 4, backgroundColor: 'bg.panel' })` etc. Semantic colors switch with light/dark.
+
+| Package | npm name | Location | Purpose |
+|---------|----------|----------|---------|
+| core | `@react-native-rethemed/core` | `packages/react-native-rethemed/core/` | Runtime: `createThemed`, `createThemedStyles`, `defineTheme`, `extendTheme`, resolvers, color-mode store |
+| cli | `@react-native-rethemed/cli` | `packages/react-native-rethemed/cli/` | `react-native-rethemed codegen` — generates `themed.gen.ts` and an optional Markdown token reference |
+| chakra-ui | `@react-native-rethemed/chakra-ui-tokens` | `packages/react-native-rethemed/chakra-ui/` | `chakraUiTheme` (Chakra UI tokens + semantic colors) |
+| material-ui | `@react-native-rethemed/material-ui-tokens` | `packages/react-native-rethemed/material-ui/` | `materialUiTheme`, converted from `@mui/material`'s `createTheme()` (Material Design 2) |
+| material-design | `@react-native-rethemed/material-design-tokens` | `packages/react-native-rethemed/material-design/` | `materialDesignTheme` (Material Design 3 type scale, spacing) |
+| tailwind-css | `@react-native-rethemed/tailwind-css-tokens` | `packages/react-native-rethemed/tailwind-css/` | `tailwindCssTheme`, converted from `tailwindcss/theme.css` |
+| shadcn-ui | `@react-native-rethemed/shadcn-ui-tokens` | `packages/react-native-rethemed/shadcn-ui/` | `shadcnUiTheme`: `tailwindCssTheme` + shadcn/ui semantic colors (top-level names) and radii; `baseColors` for all seven base colors |
+| radix-ui | `@react-native-rethemed/radix-ui-tokens` | `packages/react-native-rethemed/radix-ui/` | `createRadixUiTheme(options)` (like `<Theme>` props) and `radixUiTheme` (defaults), from `@radix-ui/themes`' token CSS |
+| panda-css | `@react-native-rethemed/panda-css-tokens` | `packages/react-native-rethemed/panda-css/` | `pandaCssTheme`, converted from `@pandacss/preset-panda` |
+| biome-config | `biome-config` (private) | `packages/biome-config/` | Shared Biome config extended by every package |
+| example | `@react-native-rethemed/example` (private) | `packages/example/` | The playground screen (`<Playground />`) and its themes, shared by every app in `apps/` |
+| apps | e.g. `rn087` | `apps/rn<version>/` | One React Native app per RN version, each rendering `<Playground />` |
+
+Tooling: pnpm workspaces (with `catalog:` for `react` / `react-native`) + Turborepo, TypeScript, Biome, Vitest, Lefthook, Commitizen.
+
+---
+
+## Quick Commands
+
+### Monorepo (Root)
+
+```bash
+pnpm install          # Install dependencies
+pnpm build            # Build all packages
+pnpm lint             # Lint all packages (Biome)
+pnpm lint:fix         # Fix lint issues
+pnpm test             # Run Vitest (watch)
+pnpm test:ci          # Run Vitest once
+pnpm tsc              # TypeScript check (tsc --noEmit)
+pnpm cz               # Commit with Commitizen (conventional commits)
+```
+
+### Per package
+
+Run with `pnpm --filter <npm name> <script>` or from the package directory.
+
+```bash
+pnpm lint / lint:fix / tsc / test / test:ci   # Available in every package
+pnpm example:codegen  # token packages: regenerate example/themed.gen.ts and example/themed.md
+pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/tokens.gen.ts from the upstream package
+```
+
+---
+
+## Architecture Guidelines
+
+### core
+
+- `src/config.ts` (`@react-native-rethemed/core/config`) is the **React / React Native-free** entry point. Token packages import from it. App theme files may import from the package root (`@react-native-rethemed/core`): the CLI aliases `react-native` to an empty stub (`cli/src/react-native-stub.cjs`) when evaluating them.
+- `src/index.ts` re-exports `config` plus the React-dependent API (`createThemed`, `createThemedStyles`).
+- Token resolution lives in `src/resolvers/`; style-prop → token-key mapping in `src/style-props.ts`; text presets in `src/text-tree.ts` / `src/text-variants.ts`.
+- Type-level tests live in `src/__type-tests__/` and are checked by `tsc`.
+
+### cli
+
+- Entry: `bin/react-native-rethemed.mjs` → `src/cli.ts`. Pipeline: `load-theme` (via jiti) → `validate` → `model` → `generate` / `emit` (+ `docs` for `--docs`).
+- `src/__fixtures__/` holds a sample theme and its committed output; `themed.gen.ts` there is generated and excluded from Biome.
+
+### Token packages (chakra-ui, material-ui, material-design, panda-css, tailwind-css, shadcn-ui, radix-ui)
+
+- Each exports one theme built with `defineTheme` from `src/index.ts`.
+- `example/` contains `theme.ts` (input), generated `themed.gen.ts` / `themed.md` (committed), and `usage.tsx` (type-checked usage sample). Tests fail when the committed output is stale — run `pnpm example:codegen` after changing the theme or the CLI.
+- panda-css: `src/tokens.gen.ts` is generated by `scripts/generate.ts` (using `scripts/convert.ts`). Do not edit it by hand; bump `@pandacss/preset-panda` and run `pnpm generate`.
+- tailwind-css: same layout; `scripts/convert.ts` parses the `@theme default` CSS variables in `tailwindcss/theme.css`. Bump `tailwindcss` and run `pnpm generate`.
+- shadcn-ui: shadcn/ui is not on npm, so `scripts/sync.ts` snapshots the registry JSON (from the shadcn-ui/ui repo, pinned to a commit in `scripts/registry/source.json`) and `scripts/generate.ts` converts the snapshot. Run `pnpm sync` then `pnpm generate`.
+- radix-ui: `scripts/convert.ts` reads `@radix-ui/themes/tokens/*.css` (cascade, `var()` and `color-mix()` evaluated at generate time) into raw data in `src/tokens.gen.ts`; `src/theme.ts` (`createRadixUiTheme`) applies accent / gray / radius / scaling. Bump `@radix-ui/themes` and run `pnpm generate`.
+- material-ui: same layout; `scripts/generate.ts` runs `createTheme()` from the `@mui/material` devDependency in light and dark mode. Bump `@mui/material` and run `pnpm generate`.
+- Export names: primitive values use the `ThemeConfig.tokens` key (`colors`, `spacing`, `radii`, …); semantic values keep the design system's own name (`semanticColors`, `typescale`, `typography`); the theme is `<designSystem>Theme`.
+- When adding a new token package, follow the same layout (`src/`, `example/`, `biome.json` extending `biome-config`, `lint` / `tsc` / `test` / `example:codegen` scripts), and add matching commands to `lefthook.yml`.
+
+### example and apps
+
+- `packages/example` holds the whole playground: `Playground.tsx`, the drawer and token showcase (`src/components/`, `src/showcase/`), the showcased themes (`src/themes/<id>/`) and the playground's own neutral theme (`src/shell/`). Its `*.gen.ts` files and `docs/themes/*.md` are generated by `pnpm --filter @react-native-rethemed/example theme:codegen` (also run on `prepare`).
+- To showcase a new theme: add `src/themes/<id>/theme.ts`, add its codegen command to `theme:codegen`, run it, and register it in `src/themes/index.ts`.
+- `apps/rn<version>` are thin React Native apps: `App.tsx` only renders `<Playground />`. When adding an app for a new RN version, copy `metro.config.js`, `jest.config.js`, `jest.setup.js` and the `paths` in `tsconfig.json` from an existing app: they pin `react`, `react-native`, `react-native-safe-area-context` and `@babel/runtime` to the app's own copies, since workspace packages have their own devDependency versions.
+- Apps use the React Native template's ESLint / Prettier / Jest setup, not Biome.
+
+---
+
+## Code Style
+
+- **Linter / Formatter**: Biome (not ESLint / Prettier). Each package's `biome.json` extends `packages/biome-config/biome.json`.
+- Single quotes, trailing commas, space indentation.
+- Files are named in `kebab-case`; tests sit next to the source as `*.test.ts`.
+- Never edit `*.gen.ts` files by hand — regenerate them.
+- Run `pnpm lint:fix` before committing. Lefthook runs Biome and `tsc` on staged files per package in `pre-commit`.
+- Commit messages follow Conventional Commits (`pnpm cz`).
+
+---
+
+## Important Notes
+
+- Use pnpm (not npm or yarn). Node.js version is pinned in `.node-version` / `package.json` `engines`.
+- `react` and `react-native` versions come from the `catalog:` in `pnpm-workspace.yaml`; core declares them as peer dependencies.
+- License: MIT. Token packages convert values from upstream design systems — keep the upstream copyright notices.
+
+---
+
+## Additional Documentation
+
+- `CLAUDE.md` — Claude Code specific instructions
+- `packages/react-native-rethemed/*/example/README.md` — What the CLI generates for each token package
+- `.claude/agents/`, `.claude/commands/` — Claude Code agents and commands

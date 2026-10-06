@@ -1,0 +1,33 @@
+{
+  "name": "react-native-rethemed",
+  "version": "0.1.0",
+  "license": "MIT",
+  "engines": {
+    "node": "24.18.0",
+    "npm": "please use pnpm",
+    "yarn": "please use pnpm"
+  },
+  "packageManager": "pnpm@12.8.1",
+  "scripts": {
+    "cz": "cz",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "test": "turbo run test",
+    "test:ci": "turbo run test:ci",
+    "tsc": "turbo run tsc",
+    "lefthook": "lefthook"
+  },
+  "devDependencies": {
+    "commitizen": "4.3.2",
+    "cz-conventional-changelog": "3.3.0",
+    "lefthook": "2.1.10",
+    "turbo": "2.10.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}

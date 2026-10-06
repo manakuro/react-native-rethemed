@@ -1,0 +1,127 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+pre-commit:
+  parallel: true
+  commands:
+    core/lint:
+      tags: core
+      root: packages/react-native-rethemed/core/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    core/tsc:
+      tags: core
+      root: packages/react-native-rethemed/core/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    cli/lint:
+      tags: cli
+      root: packages/react-native-rethemed/cli/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    cli/tsc:
+      tags: cli
+      root: packages/react-native-rethemed/cli/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    chakra-ui/lint:
+      tags: chakra-ui
+      root: packages/react-native-rethemed/chakra-ui/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    chakra-ui/tsc:
+      tags: chakra-ui
+      root: packages/react-native-rethemed/chakra-ui/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    material-ui/lint:
+      tags: material-ui
+      root: packages/react-native-rethemed/material-ui/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    material-ui/tsc:
+      tags: material-ui
+      root: packages/react-native-rethemed/material-ui/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    material-design/lint:
+      tags: material-design
+      root: packages/react-native-rethemed/material-design/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    material-design/tsc:
+      tags: material-design
+      root: packages/react-native-rethemed/material-design/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    panda-css/lint:
+      tags: panda-css
+      root: packages/react-native-rethemed/panda-css/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    panda-css/tsc:
+      tags: panda-css
+      root: packages/react-native-rethemed/panda-css/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    tailwind-css/lint:
+      tags: tailwind-css
+      root: packages/react-native-rethemed/tailwind-css/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    tailwind-css/tsc:
+      tags: tailwind-css
+      root: packages/react-native-rethemed/tailwind-css/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    shadcn-ui/lint:
+      tags: shadcn-ui
+      root: packages/react-native-rethemed/shadcn-ui/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    shadcn-ui/tsc:
+      tags: shadcn-ui
+      root: packages/react-native-rethemed/shadcn-ui/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    radix-ui/lint:
+      tags: radix-ui
+      root: packages/react-native-rethemed/radix-ui/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    radix-ui/tsc:
+      tags: radix-ui
+      root: packages/react-native-rethemed/radix-ui/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
+    example/lint:
+      tags: example
+      root: packages/example/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    example/tsc:
+      tags: example
+      root: packages/example/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit

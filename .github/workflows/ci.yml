@@ -1,0 +1,53 @@
+name: CI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      # Report every package's result even when one fails.
+      fail-fast: false
+      matrix:
+        package:
+          - core
+          - cli
+          - chakra-ui
+          - material-ui
+          - material-design
+          - panda-css
+          - tailwind-css
+          - shadcn-ui
+          - radix-ui
+        include:
+          # Library packages live under packages/react-native-rethemed/.
+          - path: packages/react-native-rethemed
+          # The shared playground screen used by apps/*.
+          - package: example
+            path: packages
+    env:
+      SAFE_CHAIN_LOGGING: silent
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+        with:
+          cache-key: ${{ matrix.package }}
+      # Runs every package on every PR (no path filter), so each job always
+      # reports a status and can be a required check. A package's tests
+      # already cover breakage from upstream packages (e.g. core -> cli ->
+      # token package examples), and Turborepo's cache keeps unchanged ones fast.
+      - name: Lint
+        run: pnpm turbo run lint --filter=./${{ matrix.path }}/${{ matrix.package }}
+      - name: Typecheck
+        run: pnpm turbo run tsc --filter=./${{ matrix.path }}/${{ matrix.package }}
+      - name: Test
+        run: pnpm turbo run test:ci --filter=./${{ matrix.path }}/${{ matrix.package }}
