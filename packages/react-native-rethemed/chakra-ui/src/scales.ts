@@ -1,5 +1,5 @@
 import type { ShadowToken } from '@react-native-rethemed/core/config';
-import { colorTokens } from './colors';
+import { colors } from './colors';
 
 /**
  * Radius scale, aligned with Chakra UI's radii tokens.
@@ -147,7 +147,7 @@ export const zIndices = {
  * shadows the way CSS `box-shadow` does. Chakra's `inner` (inset) shadow
  * isn't included — not representable with RN's native shadow props.
  */
-const shadowColor = colorTokens.black;
+const shadowColor = colors.black;
 
 export const shadows = {
   xs: {

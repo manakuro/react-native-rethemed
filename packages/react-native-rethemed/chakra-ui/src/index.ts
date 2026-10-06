@@ -1,5 +1,5 @@
 import { defineTheme } from '@react-native-rethemed/core/config';
-import { colorTokens, semanticColors } from './colors';
+import { colors, semanticColors } from './colors';
 import {
   fontSizes,
   fontWeights,
@@ -13,7 +13,7 @@ import {
 
 export const chakraUiTheme = defineTheme({
   tokens: {
-    colors: colorTokens,
+    colors,
     radii,
     spacing,
     fontSizes,
@@ -33,9 +33,8 @@ export const chakraUiTheme = defineTheme({
   },
 });
 
-export type { Colors, ColorTokenKey } from './colors';
 export {
-  colorTokens,
+  colors,
   fontSizes,
   fontWeights,
   letterSpacings,

@@ -44,13 +44,13 @@ export type TextToken = {
   /** A `tokens.fontWeights` key (`'semibold'`) or a raw RN weight (`'600'`). */
   fontWeight?: string | TextStyle['fontWeight'];
   /**
-   * A raw color, the same in light and dark (`colorTokens['gray.500']`), or
+   * A raw color, the same in light and dark (`colors['gray.500']`), or
    * one per scheme. A scheme left out gets no color from the preset, so the
    * surrounding style (or React Native's default) applies there.
    *
    * @example
-   * color: { light: colorTokens['gray.950'], dark: colorTokens.white }
-   * color: { dark: colorTokens.white } // light: no color from the preset
+   * color: { light: colors['gray.950'], dark: colors.white }
+   * color: { dark: colors.white } // light: no color from the preset
    */
   color?: TextColor;
 };

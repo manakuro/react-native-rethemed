@@ -127,21 +127,21 @@ import { materialDesignTheme } from '@react-native-rethemed/material-design-toke
 export const themeConfig = extendTheme(materialDesignTheme, chakraUiTheme);
 ```
 
-Token packages also export their primitive values (`colorTokens`, `spacing`, `radii`, …), so you can build your own semantic tokens from a design system's palette:
+Token packages also export their primitive values (`colors`, `spacing`, `radii`, …), so you can build your own semantic tokens from a design system's palette:
 
 ```ts
 import { extendTheme } from '@react-native-rethemed/core';
-import { chakraUiTheme, colorTokens } from '@react-native-rethemed/chakra-ui-tokens';
+import { chakraUiTheme, colors } from '@react-native-rethemed/chakra-ui-tokens';
 
 export const themeConfig = extendTheme(chakraUiTheme, {
   semanticTokens: {
     colors: {
       primary: {
-        bg: { light: colorTokens['gray.950'], dark: colorTokens.white },
-        fg: { light: colorTokens.white, dark: colorTokens['gray.950'] },
+        bg: { light: colors['gray.950'], dark: colors.white },
+        fg: { light: colors.white, dark: colors['gray.950'] },
       },
       bg: {
-        default: { light: colorTokens.white, dark: colorTokens['gray.950'] },
+        default: { light: colors.white, dark: colors['gray.950'] },
       },
     },
   },
