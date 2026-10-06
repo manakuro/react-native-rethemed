@@ -17,6 +17,7 @@ import * as materialDesign from './material-design/themed.gen';
 import { MaterialUiPreview } from './material-ui/Preview';
 import * as materialUi from './material-ui/themed.gen';
 import * as pandaCss from './panda-css/themed.gen';
+import * as tailwindCss from './tailwind-css/themed.gen';
 
 export type ThemeEntry = {
   id: string;
@@ -74,5 +75,14 @@ export const THEMES: ThemeEntry[] = [
       'The primitive color palette, radii, spacing, typography and shadows.',
     ThemedProvider: pandaCss.ThemedProvider,
     useThemed: loose(pandaCss.useThemed),
+  },
+  {
+    id: 'tailwind-css',
+    name: 'Tailwind CSS',
+    packageName: '@react-native-rethemed/tailwind-css-tokens',
+    description:
+      'The default theme.css: color palette, spacing, radii, text-* presets with paired line heights, font weights, leading, tracking and shadows.',
+    ThemedProvider: tailwindCss.ThemedProvider,
+    useThemed: loose(tailwindCss.useThemed),
   },
 ];

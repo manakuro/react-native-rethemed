@@ -24,6 +24,7 @@ jobs:
           - material-ui
           - material-design
           - panda-css
+          - tailwind-css
         include:
           # Library packages live under packages/react-native-rethemed/.
           - path: packages/react-native-rethemed

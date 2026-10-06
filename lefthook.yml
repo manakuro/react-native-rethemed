@@ -77,6 +77,18 @@ pre-commit:
       root: packages/react-native-rethemed/panda-css/
       glob: "*.{ts,tsx}"
       run: npx tsc --noEmit
+    tailwind-css/lint:
+      tags: tailwind-css
+      root: packages/react-native-rethemed/tailwind-css/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    tailwind-css/tsc:
+      tags: tailwind-css
+      root: packages/react-native-rethemed/tailwind-css/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
     example/lint:
       tags: example
       root: packages/example/

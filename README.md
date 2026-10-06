@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6.svg)](https://www.typescriptlang.org/) [![React Native](https://img.shields.io/badge/React%20Native-iOS%20%7C%20Android-61dafb.svg)](https://reactnative.dev/)
 
-Design tokens for React Native style props — no wrapper components. Typed by codegen, light/dark aware, with token packages for Chakra UI, Material UI, Material Design 3, Panda CSS and more.
+Design tokens for React Native style props — no wrapper components. Typed by codegen, light/dark aware, with token packages for Chakra UI, Material UI, Material Design 3, Panda CSS, Tailwind CSS and more.
 
 <p align="center">
   <img src="assets/top-light.png" alt="Playground app with the Chakra UI theme in light mode" width="280" />
@@ -19,7 +19,7 @@ Design tokens for React Native style props — no wrapper components. Typed by c
 - **🌗 Light / Dark Mode**: Semantic colors switch with the color scheme. Follow the OS, let users choose (with persistence), or drive it from your own state
 - **🪝 Hooks API**: `useThemed()` for styles and tokens, `useColorMode()` for switching modes
 - **🎨 Your Own Design System**: Define colors, spacing, radii, typography, shadows, z-indices and text presets
-- **📦 Extend Popular Design Systems**: Start from Chakra UI, Material UI, Material Design 3 or Panda CSS tokens and override what you need with `extendTheme`
+- **📦 Extend Popular Design Systems**: Start from Chakra UI, Material UI, Material Design 3, Panda CSS or Tailwind CSS tokens and override what you need with `extendTheme`
 - **⚡ Fast**: Themes are resolved once per color scheme, and `themed` stays referentially stable until the scheme changes
 - **🤖 AI-Agent Friendly**: Optionally generate a Markdown token reference so coding agents use your tokens instead of hard-coded values
 
@@ -61,6 +61,7 @@ export function Card() {
 | [`@react-native-rethemed/material-ui-tokens`](packages/react-native-rethemed/material-ui) | Material UI's default theme (Material Design 2): light/dark palette, color palette, typography variants, spacing, shape, elevations 0–24, z-indices |
 | [`@react-native-rethemed/material-design-tokens`](packages/react-native-rethemed/material-design) | Material Design 3 type scale and spacing |
 | [`@react-native-rethemed/panda-css-tokens`](packages/react-native-rethemed/panda-css) | Panda CSS colors, radii, spacing, typography, shadows |
+| [`@react-native-rethemed/tailwind-css-tokens`](packages/react-native-rethemed/tailwind-css) | Tailwind CSS `theme.css` with Tailwind's names: colors, spacing (`padding: 4` = `p-4`), radii, `text-*` presets with paired line heights, font weights, leading, tracking, shadows. The palette, radii and shadows match Panda CSS, whose preset uses Tailwind's |
 
 ## 🛠️ Setup
 
@@ -76,7 +77,7 @@ Add a token package if you want to start from an existing design system:
 ```sh
 npm install @react-native-rethemed/chakra-ui-tokens
 # or @react-native-rethemed/material-ui-tokens, @react-native-rethemed/material-design-tokens,
-#    @react-native-rethemed/panda-css-tokens
+#    @react-native-rethemed/panda-css-tokens, @react-native-rethemed/tailwind-css-tokens
 ```
 
 `react` and `react-native` are peer dependencies.
@@ -674,4 +675,4 @@ The CLI validates the theme before writing (for example, a text preset that refe
 
 MIT
 
-Token packages include values converted from [Chakra UI](https://github.com/chakra-ui/chakra-ui) (MIT), [Material UI](https://github.com/mui/material-ui) (MIT), [Panda CSS](https://github.com/chakra-ui/panda) (MIT) and the [Material Design 3](https://m3.material.io/) specification.
+Token packages include values converted from [Chakra UI](https://github.com/chakra-ui/chakra-ui) (MIT), [Material UI](https://github.com/mui/material-ui) (MIT), [Panda CSS](https://github.com/chakra-ui/panda) (MIT), [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) (MIT) and the [Material Design 3](https://m3.material.io/) specification.
