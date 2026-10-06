@@ -27,6 +27,7 @@ import {
   colorTable,
   lineHeightNote,
   lineHeightRows,
+  optionalPresetColumns,
   PRESET_FIELDS,
   presetGroups,
   presetTable,
@@ -183,28 +184,31 @@ export function generate({
       .join('\n');
 
   // --- typography presets ---------------------------------------------------
-  const presetDoc = (path: string, cells: string[], color?: string) => [
-    code(`semanticTokens.text.${path}`),
-    '',
-    ...table(
-      [...PRESET_FIELDS, ...(color !== undefined ? ['color'] : [])],
-      [
-        'right',
-        'right',
-        'right',
-        'right',
-        ...(color !== undefined ? (['left'] as const) : []),
-      ],
-      [[...cells, ...(color !== undefined ? [color] : [])]],
-    ),
-  ];
+  const presetDoc = (node: Extract<TextNode, { kind: 'preset' }>) => {
+    const extras = optionalPresetColumns([node]);
+    return [
+      code(`semanticTokens.text.${node.path}`),
+      '',
+      ...table(
+        [...PRESET_FIELDS, ...extras.map((c) => c.header)],
+        [
+          'right',
+          'right',
+          'right',
+          'right',
+          ...extras.map(() => 'left' as const),
+        ],
+        [[...node.cells, ...extras.map((c) => c.cell(node))]],
+      ),
+    ];
+  };
   /** One member per node; groups nest, and list their own presets. */
   const emitTextNodes = (nodes: TextNode[], depth: number): string =>
     nodes
       .map((node) => {
         const pad = INDENT.repeat(depth);
         if (node.kind === 'preset') {
-          return `${jsdoc(presetDoc(node.path, node.cells, node.color), pad)}\n${pad}${member(node.name)}: TextVariant;`;
+          return `${jsdoc(presetDoc(node), pad)}\n${pad}${member(node.name)}: TextVariant;`;
         }
         const [own] = presetGroups(node.children, node.path).filter(
           (g) => g.path === node.path,

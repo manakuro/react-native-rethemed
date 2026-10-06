@@ -14,6 +14,8 @@ import type { ComponentType } from 'react';
 import { ChakraUiPreview } from './chakra-ui/Preview';
 import * as chakraUi from './chakra-ui/themed.gen';
 import * as materialDesign from './material-design/themed.gen';
+import { MaterialUiPreview } from './material-ui/Preview';
+import * as materialUi from './material-ui/themed.gen';
 import * as pandaCss from './panda-css/themed.gen';
 
 export type ThemeEntry = {
@@ -45,6 +47,16 @@ export const THEMES: ThemeEntry[] = [
     ThemedProvider: chakraUi.ThemedProvider,
     useThemed: loose(chakraUi.useThemed),
     Preview: ChakraUiPreview,
+  },
+  {
+    id: 'material-ui',
+    name: 'Material UI',
+    packageName: '@react-native-rethemed/material-ui-tokens',
+    description:
+      "Material UI's default theme: the light/dark palette, color palette, typography variants, spacing, shape, elevations 0–24 and z-indices.",
+    ThemedProvider: materialUi.ThemedProvider,
+    useThemed: loose(materialUi.useThemed),
+    Preview: MaterialUiPreview,
   },
   {
     id: 'material-design',

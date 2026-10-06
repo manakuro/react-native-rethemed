@@ -44,6 +44,14 @@ export type TextToken = {
   /** A `tokens.fontWeights` key (`'semibold'`) or a raw RN weight (`'600'`). */
   fontWeight?: string | TextStyle['fontWeight'];
   /**
+   * Optional case transform, passed through as-is (no token scale), e.g.
+   * Material UI's `button` and `overline` styles.
+   *
+   * @example
+   * button: { fontSize: 14, fontWeight: '500', textTransform: 'uppercase' }
+   */
+  textTransform?: TextStyle['textTransform'];
+  /**
    * A raw color, the same in light and dark (`colors['gray.500']`), or
    * one per scheme. A scheme left out gets no color from the preset, so the
    * surrounding style (or React Native's default) applies there.

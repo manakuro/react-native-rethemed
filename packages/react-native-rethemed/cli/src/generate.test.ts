@@ -83,6 +83,21 @@ describe('generate', () => {
     );
   });
 
+  it('documents and types a preset textTransform', () => {
+    const source = generate({
+      config: {
+        semanticTokens: {
+          text: { button: { fontSize: 14, textTransform: 'uppercase' } },
+        },
+      },
+      themeImport: { specifier: './theme', exportName: 'themeConfig' },
+    });
+    expect(source).toMatch(
+      /\* \| fontSize \| lineHeight \| letterSpacing \| fontWeight \| textTransform \|\n.*\n\s+\* \| 14 \| – \| – \| – \| uppercase \|/,
+    );
+    expect(source).toContain("textTransform: 'uppercase';");
+  });
+
   it('shows a palette as a hue × shade grid', () => {
     const source = generate({
       config: {

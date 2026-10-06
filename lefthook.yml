@@ -41,6 +41,18 @@ pre-commit:
       root: packages/react-native-rethemed/chakra-ui/
       glob: "*.{ts,tsx}"
       run: npx tsc --noEmit
+    material-ui/lint:
+      tags: material-ui
+      root: packages/react-native-rethemed/material-ui/
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      stage_fixed: true
+      run: |
+        npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    material-ui/tsc:
+      tags: material-ui
+      root: packages/react-native-rethemed/material-ui/
+      glob: "*.{ts,tsx}"
+      run: npx tsc --noEmit
     material-design/lint:
       tags: material-design
       root: packages/react-native-rethemed/material-design/

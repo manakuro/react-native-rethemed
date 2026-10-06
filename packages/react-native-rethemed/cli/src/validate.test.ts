@@ -145,6 +145,22 @@ describe('validateTheme', () => {
     ]);
   });
 
+  it('accepts textTransform and rejects values RN does not support', () => {
+    expect(
+      validateTheme({
+        semanticTokens: {
+          text: {
+            button: { fontSize: 14, textTransform: 'uppercase' },
+            // @ts-expect-error -- not an RN textTransform
+            label: { fontSize: 12, textTransform: 'small-caps' },
+          },
+        },
+      }),
+    ).toEqual([
+      'semanticTokens.text.label.textTransform: must be one of none, capitalize, uppercase, lowercase',
+    ]);
+  });
+
   it('rejects a group or preset named like a preset field', () => {
     const problems = validateTheme({
       semanticTokens: {

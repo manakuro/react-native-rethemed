@@ -31,6 +31,14 @@ const RN_FONT_WEIGHTS = new Set([
   'black',
 ]);
 
+/** Values RN's `TextStyle['textTransform']` accepts. */
+const RN_TEXT_TRANSFORMS = new Set([
+  'none',
+  'capitalize',
+  'uppercase',
+  'lowercase',
+]);
+
 const TEXT_REF_SCALES = {
   fontSize: 'fontSizes',
   lineHeight: 'lineHeights',
@@ -137,6 +145,12 @@ function checkTextTree(
           );
         } else if (field === 'color') {
           checkTextColor(value, `${at}.color`, problems);
+        } else if (field === 'textTransform') {
+          if (typeof value !== 'string' || !RN_TEXT_TRANSFORMS.has(value)) {
+            problems.push(
+              `${at}.textTransform: must be one of ${[...RN_TEXT_TRANSFORMS].join(', ')}`,
+            );
+          }
         } else if (!isPrimitive(value)) {
           problems.push(`${at}.${field}: must be a string or a number`);
         }

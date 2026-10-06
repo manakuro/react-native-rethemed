@@ -7,6 +7,7 @@ export const TEXT_TOKEN_FIELDS = [
   'lineHeight',
   'letterSpacing',
   'fontWeight',
+  'textTransform',
   'color',
 ] as const;
 

@@ -50,6 +50,8 @@ export type TextNode =
       cells: string[];
       /** The preset's `color`, rendered; `undefined` when it has none. */
       color?: string;
+      /** The preset's `textTransform`; `undefined` when it has none. */
+      textTransform?: string;
     }
   | { kind: 'group'; name: string; path: string; children: TextNode[] };
 
@@ -186,6 +188,7 @@ function textNodes(
             path: path.join('.'),
             cells: cells(node),
             color: colorCell(node.color),
+            textTransform: node.textTransform,
           }
         : {
             kind: 'group',
@@ -340,22 +343,41 @@ export function shadowTable(rows: TokenModel['shadows']): string[] {
 export function presetTable(
   presets: Extract<TextNode, { kind: 'preset' }>[],
 ): string[] {
-  // The `color` column only appears when a preset in this table has one.
-  const withColor = presets.some((p) => p.color !== undefined);
+  // Optional columns only appear when a preset in this table has a value.
+  const extras = optionalPresetColumns(presets);
   return table(
-    ['preset', ...PRESET_FIELDS, ...(withColor ? ['color'] : [])],
+    ['preset', ...PRESET_FIELDS, ...extras.map((c) => c.header)],
     [
       'left',
       'right',
       'right',
       'right',
       'right',
-      ...(withColor ? (['left'] as const) : []),
+      ...extras.map(() => 'left' as const),
     ],
     presets.map((p) => [
       code(p.path),
       ...p.cells,
-      ...(withColor ? [p.color ?? '–'] : []),
+      ...extras.map((c) => c.cell(p)),
     ]),
   );
+}
+
+type PresetExtras = Pick<
+  Extract<TextNode, { kind: 'preset' }>,
+  'textTransform' | 'color'
+>;
+
+const OPTIONAL_PRESET_FIELDS = ['textTransform', 'color'] as const;
+
+/**
+ * Preset fields shown only when used (`textTransform`, `color`), in column
+ * order: a table includes a column when any of its presets sets the field.
+ */
+export function optionalPresetColumns(
+  presets: PresetExtras[],
+): { header: string; cell: (preset: PresetExtras) => string }[] {
+  return OPTIONAL_PRESET_FIELDS.filter((field) =>
+    presets.some((p) => p[field] !== undefined),
+  ).map((field) => ({ header: field, cell: (p) => p[field] ?? '–' }));
 }

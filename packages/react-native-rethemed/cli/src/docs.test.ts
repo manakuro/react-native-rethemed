@@ -60,6 +60,30 @@ describe('generateDocs', () => {
     );
   });
 
+  it('adds a textTransform column only to tables that use it', () => {
+    const docs = generateDocs({
+      config: {
+        semanticTokens: {
+          text: {
+            button: { fontSize: 14, textTransform: 'uppercase' },
+            body: { fontSize: 16 },
+            title: { md: { fontSize: 22 } },
+          },
+        },
+      },
+      themeFile: 'theme.ts',
+      genFile: 'themed.gen.ts',
+    });
+    expect(docs).toContain(
+      '| preset | fontSize | lineHeight | letterSpacing | fontWeight | textTransform |',
+    );
+    expect(docs).toContain('| `button` | 14 | – | – | – | uppercase |');
+    expect(docs).toContain('| `body` | 16 | – | – | – | – |');
+    expect(docs).toMatch(
+      /### title\n\n\| preset \| fontSize \| lineHeight \| letterSpacing \| fontWeight \|\n/,
+    );
+  });
+
   it('explains overriding a preset size for token and absolute line heights', () => {
     // The fixture has both: `title.md` (lineHeight: 24) and `body.md` ('moderate').
     const docs = fixture();
