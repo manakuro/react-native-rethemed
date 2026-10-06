@@ -1,19 +1,72 @@
 {
   "name": "@react-native-rethemed/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Type-safe design tokens for React Native style props — light/dark themes, text presets, and a themed style API.",
+  "keywords": [
+    "react-native",
+    "react-native-rethemed",
+    "design-tokens",
+    "theme",
+    "dark-mode",
+    "typescript"
+  ],
   "license": "MIT",
+  "author": "manakuro",
+  "homepage": "https://github.com/manakuro/react-native-rethemed/tree/main/packages/react-native-rethemed/core#readme",
+  "bugs": {
+    "url": "https://github.com/manakuro/react-native-rethemed/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manakuro/react-native-rethemed.git",
+    "directory": "packages/react-native-rethemed/core"
+  },
+  "sideEffects": false,
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./config": "./src/config.ts"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "node ../../../scripts/build-package.mjs",
+    "prepack": "pnpm run build",
     "lint": "biome check src",
     "lint:fix": "biome check --write --unsafe src",
     "tsc": "tsc --noEmit",
     "test": "vitest",
     "test:ci": "vitest run"
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "./dist/cjs/index.js",
+    "types": "./dist/cjs/index.d.ts",
+    "exports": {
+      ".": {
+        "import": {
+          "types": "./dist/esm/index.d.ts",
+          "default": "./dist/esm/index.js"
+        },
+        "require": {
+          "types": "./dist/cjs/index.d.ts",
+          "default": "./dist/cjs/index.js"
+        }
+      },
+      "./config": {
+        "import": {
+          "types": "./dist/esm/config.d.ts",
+          "default": "./dist/esm/config.js"
+        },
+        "require": {
+          "types": "./dist/cjs/config.d.ts",
+          "default": "./dist/cjs/config.js"
+        }
+      },
+      "./package.json": "./package.json"
+    }
   },
   "peerDependencies": {
     "react": "*",

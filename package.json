@@ -17,9 +17,13 @@
     "test": "turbo run test",
     "test:ci": "turbo run test:ci",
     "tsc": "turbo run tsc",
-    "lefthook": "lefthook"
+    "lefthook": "lefthook",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "release": "changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "3.0.3",
     "commitizen": "4.3.2",
     "cz-conventional-changelog": "3.3.0",
     "lefthook": "2.1.10",

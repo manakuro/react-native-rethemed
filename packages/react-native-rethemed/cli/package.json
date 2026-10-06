@@ -1,11 +1,36 @@
 {
   "name": "@react-native-rethemed/cli",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "CLI for react-native-rethemed: generates typed token docs (themed.gen.ts) and an AI-agent token reference from your theme.",
+  "keywords": [
+    "react-native",
+    "react-native-rethemed",
+    "design-tokens",
+    "codegen",
+    "cli",
+    "ai-agents"
+  ],
   "license": "MIT",
+  "author": "manakuro",
+  "homepage": "https://github.com/manakuro/react-native-rethemed/tree/main/packages/react-native-rethemed/cli#readme",
+  "bugs": {
+    "url": "https://github.com/manakuro/react-native-rethemed/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manakuro/react-native-rethemed.git",
+    "directory": "packages/react-native-rethemed/cli"
+  },
   "type": "module",
   "bin": {
     "react-native-rethemed": "./bin/react-native-rethemed.mjs"
   },
+  "files": [
+    "bin",
+    "src",
+    "!src/**/*.test.ts",
+    "!src/__fixtures__"
+  ],
   "scripts": {
     "lint": "biome check src bin",
     "lint:fix": "biome check --write --unsafe src bin",
@@ -13,9 +38,12 @@
     "test": "vitest",
     "test:ci": "vitest run"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@clack/prompts": "1.8.1",
-    "@react-native-rethemed/core": "workspace:*",
+    "@react-native-rethemed/core": "workspace:^",
     "jiti": "2.7.0"
   },
   "devDependencies": {

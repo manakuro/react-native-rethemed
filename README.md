@@ -268,7 +268,7 @@ Re-run the command whenever the theme changes. We recommend adding it as a scrip
 ```json
 {
   "scripts": {
-    "theme:codegen": "@react-native-rethemed/cli codegen src/theme/theme.ts --docs docs/themed.md",
+    "theme:codegen": "react-native-rethemed codegen src/theme/theme.ts --docs docs/themed.md",
     "prepare": "npm run theme:codegen"
   }
 }
@@ -675,7 +675,7 @@ A partial theme may reference tokens that another theme supplies; the CLI valida
 ## ⌨️ CLI
 
 ```
-Usage: @react-native-rethemed/cli codegen <theme-file> [options]
+Usage: react-native-rethemed codegen <theme-file> [options]
 
 Options:
   -o, --out <file>      Output file (default: <theme-dir>/themed.gen.ts)

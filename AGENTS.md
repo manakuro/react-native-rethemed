@@ -45,13 +45,14 @@ Tooling: pnpm workspaces (with `catalog:` for `react` / `react-native`) + Turbor
 
 ```bash
 pnpm install          # Install dependencies
-pnpm build            # Build all packages
+pnpm build            # Build library packages to dist/ (cjs + esm + d.ts)
 pnpm lint             # Lint all packages (Biome)
 pnpm lint:fix         # Fix lint issues
 pnpm test             # Run Vitest (watch)
 pnpm test:ci          # Run Vitest once
 pnpm tsc              # TypeScript check (tsc --noEmit)
 pnpm cz               # Commit with Commitizen (conventional commits)
+pnpm changeset        # Add a changeset for a user-facing change
 ```
 
 ### Per package
@@ -117,6 +118,15 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 - Use pnpm (not npm or yarn). Node.js version is pinned in `.node-version` / `package.json` `engines`.
 - `react` and `react-native` versions come from the `catalog:` in `pnpm-workspace.yaml`; core declares them as peer dependencies.
 - License: MIT. Token packages convert values from upstream design systems — keep the upstream copyright notices.
+
+---
+
+## Publishing
+
+- The 9 packages under `packages/react-native-rethemed/` are published to npm; `example`, `biome-config` and `apps/*` are private.
+- In the repo, `main` / `exports` point at `src/*.ts` (apps, tests and the CLI use the sources). `publishConfig` overrides them with `dist/` at publish time, and `prepack` runs `build` (`scripts/build-package.mjs` + `tsconfig.build.json`). The CLI is published as TypeScript sources and run through jiti (`files`: `bin`, `src`).
+- When adding a library package: copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package, and depend on internal packages with `workspace:^`.
+- Versioning uses Changesets with all public packages in one `fixed` group (same version). Release: `pnpm changeset` → `pnpm version-packages` → commit → `pnpm release` → `git push --follow-tags`.
 
 ---
 
