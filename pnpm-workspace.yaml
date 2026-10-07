@@ -1,6 +1,7 @@
 packages:
   - apps/*
-  - packages/**
+  - packages/*
+  - packages/react-native-rethemed/*
 
 catalog:
   react-native: 0.86.2

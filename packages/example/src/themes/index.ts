@@ -11,15 +11,15 @@ import type {
   UseThemedResult,
 } from '@react-native-rethemed/core';
 import type { ComponentType } from 'react';
-import { ChakraUiPreview } from './chakra-ui/Preview';
+import { ChakraUiPreview } from './chakra-ui/preview';
 import * as chakraUi from './chakra-ui/themed.gen';
 import * as materialDesign from './material-design/themed.gen';
-import { MaterialUiPreview } from './material-ui/Preview';
+import { MaterialUiPreview } from './material-ui/preview';
 import * as materialUi from './material-ui/themed.gen';
 import * as pandaCss from './panda-css/themed.gen';
-import { RadixUiPreview } from './radix-ui/Preview';
+import { RadixUiPreview } from './radix-ui/preview';
 import * as radixUi from './radix-ui/themed.gen';
-import { ShadcnUiPreview } from './shadcn-ui/Preview';
+import { ShadcnUiPreview } from './shadcn-ui/preview';
 import * as shadcnUi from './shadcn-ui/themed.gen';
 import * as tailwindCss from './tailwind-css/themed.gen';
 

@@ -14,11 +14,11 @@ import type { ThemedProviderProps } from '@react-native-rethemed/core';
 import { useState } from 'react';
 import { ScrollView, StatusBar, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { MenuButton } from './components/MenuButton';
-import { ThemeDrawer } from './components/ThemeDrawer';
-import { ThemeMenu } from './components/ThemeMenu';
+import { MenuButton } from './components/menu-button';
+import { ThemeDrawer } from './components/theme-drawer';
+import { ThemeMenu } from './components/theme-menu';
 import { ThemedProvider, useThemed } from './shell/themed.gen';
-import { TokenShowcase } from './showcase/TokenShowcase';
+import { TokenShowcase } from './showcase/token-showcase';
 import { THEMES, type ThemeEntry } from './themes';
 
 export type PlaygroundProps = Pick<

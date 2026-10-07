@@ -36,3 +36,6 @@ AI_INSTRUCTIONS.md
 
 .keys
 token.json
+
+# Scratch files (e.g. release notes)
+.tmp/
