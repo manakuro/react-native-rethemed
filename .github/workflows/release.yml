@@ -56,6 +56,10 @@ jobs:
           cache-key: release
       - name: Open or update the Version Packages PR
         uses: changesets/action/version@v2
+        env:
+          # @changesets/changelog-github looks up each changeset's PR and
+          # author through the GitHub API.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: pnpm version-packages
           pr-title: 'chore: version packages'

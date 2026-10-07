@@ -2,7 +2,10 @@
   "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
   "baseBranch": "main",
   "access": "public",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "manakuro/react-native-rethemed" }
+  ],
   "commit": false,
   "fixed": [["@react-native-rethemed/*", "!@react-native-rethemed/example"]],
   "linked": [],
