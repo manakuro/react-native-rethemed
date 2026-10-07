@@ -4,7 +4,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-store
-.tmp
 
 # Logs
 logs
@@ -37,3 +36,6 @@ AI_INSTRUCTIONS.md
 
 .keys
 token.json
+
+# Scratch files (e.g. release notes)
+.tmp/
