@@ -20,10 +20,13 @@ Requirements:
 ```sh
 git clone https://github.com/manakuro/react-native-rethemed.git
 cd react-native-rethemed
+npm install -g corepack@latest
+corepack enable pnpm
 pnpm install
+pnpm lefthook install
 ```
 
-`pnpm install` also sets up the Git hooks ([Lefthook](https://github.com/evilmartians/lefthook)) and runs the playground's codegen.
+`pnpm install` and runs the playground's codegen.
 
 ### Repository layout
 
