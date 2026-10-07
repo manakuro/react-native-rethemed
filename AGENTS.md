@@ -138,4 +138,4 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 - `CLAUDE.md` — Claude Code specific instructions
 - `docs/releasing.md` — Changesets, the release workflow, manual release and npm Trusted Publishing setup
 - `packages/react-native-rethemed/*/example/README.md` — What the CLI generates for each token package
-- `.claude/agents/`, `.claude/commands/` — Claude Code agents and commands
+- `.claude/agents/`, `.claude/commands/`, `.claude/skills/` — Claude Code agents, commands and skills (`changeset`: add a changeset for the current branch)
