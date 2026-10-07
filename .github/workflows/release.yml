@@ -1,0 +1,105 @@
+name: Release
+
+# On every push to main:
+# - unreleased changesets → open/update the "Version Packages" PR
+# - that PR merged (versions bumped, nothing on npm yet) → publish to npm
+#
+# Publishing uses npm Trusted Publishing (OIDC): no NPM_TOKEN. Each package
+# trusts this workflow file (`release.yml`) on npmjs.com, and provenance is
+# attached automatically. Only the `publish` job can mint the OIDC token.
+on:
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+  SAFE_CHAIN_LOGGING: silent
+
+jobs:
+  select-mode:
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.select-mode.outputs.mode }}
+      publish-plan-artifact-id: ${{ steps.select-mode.outputs.publish-plan-artifact-id }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+        with:
+          cache-key: release
+      - name: Select Changesets mode
+        id: select-mode
+        uses: changesets/action/select-mode@v2
+
+  version:
+    if: needs.select-mode.outputs.mode == 'version'
+    needs: select-mode
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+        with:
+          cache-key: release
+      - name: Open or update the Version Packages PR
+        uses: changesets/action/version@v2
+        with:
+          script: pnpm version-packages
+          pr-title: 'chore: version packages'
+          commit-message: 'chore: version packages'
+
+  pack:
+    if: needs.select-mode.outputs.mode == 'publish'
+    needs: select-mode
+    runs-on: ubuntu-latest
+    outputs:
+      pack-dir-artifact-id: ${{ steps.pack.outputs.pack-dir-artifact-id }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+        with:
+          cache-key: release
+      # `pnpm pack` runs each package's `prepack` (build) and applies
+      # publishConfig / workspace:^ rewriting.
+      - name: Pack packages
+        id: pack
+        uses: changesets/action/pack@v2
+        with:
+          publish-plan-artifact-id: ${{ needs.select-mode.outputs.publish-plan-artifact-id }}
+
+  publish:
+    needs: pack
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # git tags and GitHub releases
+      id-token: write # npm Trusted Publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+        with:
+          cache-key: release
+      - name: Publish packages
+        uses: changesets/action/publish@v2
+        with:
+          pack-dir-artifact-id: ${{ needs.pack.outputs.pack-dir-artifact-id }}

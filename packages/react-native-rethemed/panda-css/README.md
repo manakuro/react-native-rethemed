@@ -1,5 +1,7 @@
 # @react-native-rethemed/panda-css-tokens
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/panda-css-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/panda-css-tokens)
+
 Panda CSS's default theme tokens for React Native, ready for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 Panda CSS's default theme (`@pandacss/preset-panda`): colors, radii, spacing, font sizes / weights, line heights, letter spacings and shadows. Panda ships no semantic tokens, so define `semanticTokens` in your app.

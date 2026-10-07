@@ -1,5 +1,7 @@
 # @react-native-rethemed/core
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/core.svg)](https://www.npmjs.com/package/@react-native-rethemed/core)
+
 Type-safe design tokens for React Native style props — no wrapper components. Light/dark aware, with text presets and a `themed` style API. Part of [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 ## Installation

@@ -1,5 +1,7 @@
 # @react-native-rethemed/chakra-ui-tokens
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/chakra-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/chakra-ui-tokens)
+
 Chakra UI's default design tokens for React Native, ready for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 ## Installation

@@ -1,5 +1,7 @@
 # @react-native-rethemed/cli
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/cli.svg)](https://www.npmjs.com/package/@react-native-rethemed/cli)
+
 Code generator for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed). Reads your theme and writes:
 
 - **`themed.gen.ts`** — token types, a JSDoc table of tokens and values on every token-aware prop (shown in editor hovers and autocomplete), and the ready-to-use `ThemedProvider` / `useThemed` / `useColorMode`.

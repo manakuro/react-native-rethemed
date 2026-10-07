@@ -1,6 +1,6 @@
 # react-native-rethemed
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6.svg)](https://www.typescriptlang.org/) [![React Native](https://img.shields.io/badge/React%20Native-iOS%20%7C%20Android-61dafb.svg)](https://reactnative.dev/)
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/core.svg)](https://www.npmjs.com/package/@react-native-rethemed/core) [![CI](https://github.com/manakuro/react-native-rethemed/actions/workflows/ci.yml/badge.svg)](https://github.com/manakuro/react-native-rethemed/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6.svg)](https://www.typescriptlang.org/) [![React Native](https://img.shields.io/badge/React%20Native-iOS%20%7C%20Android-61dafb.svg)](https://reactnative.dev/)
 
 Design tokens for React Native style props — no wrapper components. Typed by codegen, light/dark aware, with token packages for Chakra UI, Material UI, Material Design 3, Panda CSS, Tailwind CSS, shadcn/ui, Radix UI and more.
 
@@ -53,17 +53,17 @@ export function Card() {
 
 ## 📦 Packages
 
-| Package | Description |
-| --- | --- |
-| [`@react-native-rethemed/core`](packages/react-native-rethemed/core) | Runtime: `defineTheme`, `extendTheme`, `createThemed` |
-| [`@react-native-rethemed/cli`](packages/react-native-rethemed/cli) | `@react-native-rethemed/cli codegen` — generates typed bindings from a theme |
-| [`@react-native-rethemed/chakra-ui-tokens`](packages/react-native-rethemed/chakra-ui) | Chakra UI colors (with light/dark semantic colors), radii, spacing, typography, shadows, z-indices |
-| [`@react-native-rethemed/material-ui-tokens`](packages/react-native-rethemed/material-ui) | Material UI's default theme (Material Design 2): light/dark palette, color palette, typography variants, spacing, shape, elevations 0–24, z-indices |
-| [`@react-native-rethemed/material-design-tokens`](packages/react-native-rethemed/material-design) | Material Design 3 type scale and spacing |
-| [`@react-native-rethemed/panda-css-tokens`](packages/react-native-rethemed/panda-css) | Panda CSS colors, radii, spacing, typography, shadows |
-| [`@react-native-rethemed/tailwind-css-tokens`](packages/react-native-rethemed/tailwind-css) | Tailwind CSS `theme.css` with Tailwind's names: colors, spacing (`padding: 4` = `p-4`), radii, `text-*` presets with paired line heights, font weights, leading, tracking, shadows. The palette, radii and shadows match Panda CSS, whose preset uses Tailwind's |
-| [`@react-native-rethemed/shadcn-ui-tokens`](packages/react-native-rethemed/shadcn-ui) | shadcn/ui: Tailwind CSS plus shadcn/ui's light/dark semantic colors named like the class names (`'primary'`, `'primary-foreground'`), seven base colors and the `--radius` scale |
-| [`@react-native-rethemed/radix-ui-tokens`](packages/react-native-rethemed/radix-ui) | Radix Themes, configured like `<Theme>`: `createRadixUiTheme({ accentColor, grayColor, radius, scaling, colors })`. Accent / gray scales (12 steps + alpha) for light and dark, panel colors, space, radius, Text / Heading presets, shadows |
+| Package | Version | Description |
+| --- | --- | --- |
+| [`@react-native-rethemed/core`](packages/react-native-rethemed/core) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/core.svg)](https://www.npmjs.com/package/@react-native-rethemed/core) | Runtime: `defineTheme`, `extendTheme`, `createThemed` |
+| [`@react-native-rethemed/cli`](packages/react-native-rethemed/cli) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/cli.svg)](https://www.npmjs.com/package/@react-native-rethemed/cli) | `@react-native-rethemed/cli codegen` — generates typed bindings from a theme |
+| [`@react-native-rethemed/chakra-ui-tokens`](packages/react-native-rethemed/chakra-ui) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/chakra-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/chakra-ui-tokens) | Chakra UI colors (with light/dark semantic colors), radii, spacing, typography, shadows, z-indices |
+| [`@react-native-rethemed/material-ui-tokens`](packages/react-native-rethemed/material-ui) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/material-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/material-ui-tokens) | Material UI's default theme (Material Design 2): light/dark palette, color palette, typography variants, spacing, shape, elevations 0–24, z-indices |
+| [`@react-native-rethemed/material-design-tokens`](packages/react-native-rethemed/material-design) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/material-design-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/material-design-tokens) | Material Design 3 type scale and spacing |
+| [`@react-native-rethemed/panda-css-tokens`](packages/react-native-rethemed/panda-css) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/panda-css-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/panda-css-tokens) | Panda CSS colors, radii, spacing, typography, shadows |
+| [`@react-native-rethemed/tailwind-css-tokens`](packages/react-native-rethemed/tailwind-css) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/tailwind-css-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/tailwind-css-tokens) | Tailwind CSS `theme.css` with Tailwind's names: colors, spacing (`padding: 4` = `p-4`), radii, `text-*` presets with paired line heights, font weights, leading, tracking, shadows. The palette, radii and shadows match Panda CSS, whose preset uses Tailwind's |
+| [`@react-native-rethemed/shadcn-ui-tokens`](packages/react-native-rethemed/shadcn-ui) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/shadcn-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/shadcn-ui-tokens) | shadcn/ui: Tailwind CSS plus shadcn/ui's light/dark semantic colors named like the class names (`'primary'`, `'primary-foreground'`), seven base colors and the `--radius` scale |
+| [`@react-native-rethemed/radix-ui-tokens`](packages/react-native-rethemed/radix-ui) | [![npm](https://img.shields.io/npm/v/@react-native-rethemed/radix-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/radix-ui-tokens) | Radix Themes, configured like `<Theme>`: `createRadixUiTheme({ accentColor, grayColor, radius, scaling, colors })`. Accent / gray scales (12 steps + alpha) for light and dark, panel colors, space, radius, Text / Heading presets, shadows |
 
 ## 🛠️ Setup
 

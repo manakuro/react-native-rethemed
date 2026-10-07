@@ -1,5 +1,7 @@
 # @react-native-rethemed/material-design-tokens
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/material-design-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/material-design-tokens)
+
 Material Design 3 type scale and tokens for React Native, ready for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 Material Design 3's baseline type scale — 5 roles (display / headline / title / body / label) × 3 sizes (lg / md / sm) — and spacing.

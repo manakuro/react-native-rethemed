@@ -126,7 +126,8 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 - The 9 packages under `packages/react-native-rethemed/` are published to npm; `example`, `biome-config` and `apps/*` are private.
 - In the repo, `main` / `exports` point at `src/*.ts` (apps, tests and the CLI use the sources). `publishConfig` overrides them with `dist/` at publish time, and `prepack` runs `build` (`scripts/build-package.mjs` + `tsconfig.build.json`). The CLI is published as TypeScript sources and run through jiti (`files`: `bin`, `src`).
 - When adding a library package: copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package, and depend on internal packages with `workspace:^`.
-- Versioning uses Changesets with all public packages in one `fixed` group (same version). Release: `pnpm changeset` → `pnpm version-packages` → commit → `pnpm release` → `git push --follow-tags`.
+- Versioning uses Changesets with all public packages in one `fixed` group (same version). Add a changeset (`pnpm changeset`) to any PR with a user-facing change.
+- Releases run in CI (`.github/workflows/release.yml`): pushes to main open/update a "chore: version packages" PR; merging it publishes to npm via Trusted Publishing (OIDC, no token) and creates git tags and GitHub releases. Manual fallback: `pnpm version-packages` → commit → `pnpm release` → `git push --follow-tags`.
 
 ---
 

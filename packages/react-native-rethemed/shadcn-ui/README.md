@@ -1,5 +1,7 @@
 # @react-native-rethemed/shadcn-ui-tokens
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/shadcn-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/shadcn-ui-tokens)
+
 shadcn/ui's theme (semantic colors, radii, all base colors) for React Native, ready for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 shadcn/ui is Tailwind CSS plus CSS variables, so `shadcnUiTheme` is `tailwindCssTheme` with shadcn/ui's light/dark semantic colors (named like the class names: `'primary'`, `'muted-foreground'`) and `--radius` scale on top. All seven base colors are exported as `baseColors`.

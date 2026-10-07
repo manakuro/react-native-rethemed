@@ -1,5 +1,7 @@
 # @react-native-rethemed/tailwind-css-tokens
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/tailwind-css-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/tailwind-css-tokens)
+
 Tailwind CSS's default theme (colors, spacing, text sizes, shadows) for React Native, ready for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 Tailwind CSS's default `theme.css` with Tailwind's names: `padding: 4` is `p-4`, `themed.text.sm()` is `text-sm` (font size plus its paired line height).

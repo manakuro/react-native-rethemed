@@ -1,5 +1,7 @@
 # @react-native-rethemed/material-ui-tokens
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/material-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/material-ui-tokens)
+
 Material UI's default theme (palette, colors, typography) for React Native, ready for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 Material UI's default theme (`createTheme()`, Material Design 2): palette in light and dark mode with Material UI's names (`'primary.main'`, `'text.secondary'`), `@mui/material/colors`, the 13 typography variants as text presets (`button` / `overline` keep `textTransform: 'uppercase'`), spacing, shape and elevations 0–24.

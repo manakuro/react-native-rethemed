@@ -1,5 +1,7 @@
 # @react-native-rethemed/radix-ui-tokens
 
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/radix-ui-tokens.svg)](https://www.npmjs.com/package/@react-native-rethemed/radix-ui-tokens)
+
 Radix UI Themes tokens (Radix Colors scales, typography, radii, shadows) for React Native, ready for [react-native-rethemed](https://github.com/manakuro/react-native-rethemed).
 
 Radix Themes configured like `<Theme>`: accent / gray scales (12 steps + alpha) for light and dark, panel colors, space, radius, the Text / Heading presets and shadows.
