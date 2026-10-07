@@ -126,6 +126,7 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 - The 9 packages under `packages/react-native-rethemed/` are published to npm; `example`, `biome-config` and `apps/*` are private.
 - In the repo, `main` / `exports` point at `src/*.ts` (apps, tests and the CLI use the sources). `publishConfig` overrides them with `dist/` at publish time, and `prepack` runs `build` (`scripts/build-package.mjs` + `tsconfig.build.json`). The CLI is published as TypeScript sources and run through jiti (`files`: `bin`, `src`).
 - When adding a library package: copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package, and depend on internal packages with `workspace:^`.
+- Full release procedure: `docs/releasing.md`.
 - Versioning uses Changesets with all public packages in one `fixed` group (same version). Add a changeset (`pnpm changeset`) to any PR with a user-facing change.
 - Releases run in CI (`.github/workflows/release.yml`): pushes to main open/update a "chore: version packages" PR; merging it publishes to npm via Trusted Publishing (OIDC, no token), pushes per-package git tags and creates one GitHub release `v<version>` (notes from `scripts/release-notes.mjs`). CHANGELOG entries link the PR, commit and author (`@changesets/changelog-github`), so a manual `version-packages` needs a token: `GITHUB_TOKEN=$(gh auth token) pnpm version-packages`. Manual fallback: `pnpm version-packages` → commit → `pnpm release` → `git push --follow-tags`.
 
@@ -134,5 +135,6 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 ## Additional Documentation
 
 - `CLAUDE.md` — Claude Code specific instructions
+- `docs/releasing.md` — Changesets, the release workflow, manual release and npm Trusted Publishing setup
 - `packages/react-native-rethemed/*/example/README.md` — What the CLI generates for each token package
 - `.claude/agents/`, `.claude/commands/` — Claude Code agents and commands
