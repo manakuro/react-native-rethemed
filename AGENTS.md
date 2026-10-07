@@ -110,7 +110,7 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 - **Naming**: Use `kebab-case` for files and folders, including React components (`theme-menu.tsx` exports `ThemeMenu`). Biome's `useFilenamingConvention` enforces it for JS/TS files. Exceptions: the `__fixtures__` / `__type-tests__` folders, upper-case docs (`README.md`, `CHANGELOG.md`, `AGENTS.md`, …), and the React Native template files in `apps/*` (`App.tsx`, `__tests__/`).
 - Never edit `*.gen.ts` files by hand — regenerate them.
 - Run `pnpm lint:fix` before committing. Lefthook runs Biome and `tsc` on staged files per package in `pre-commit`.
-- Commit messages follow Conventional Commits (`pnpm cz`).
+- Commit messages follow Conventional Commits (`pnpm cz`, or `/commit` in Claude Code): an imperative subject line of 50 characters or fewer (`feat: add new page`), then a body of two or three sentences in the past tense. Rules: `.claude/skills/commit/SKILL.md`.
 
 ---
 
@@ -138,4 +138,4 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 - `CLAUDE.md` — Claude Code specific instructions
 - `docs/releasing.md` — Changesets, the release workflow, manual release and npm Trusted Publishing setup
 - `packages/react-native-rethemed/*/example/README.md` — What the CLI generates for each token package
-- `.claude/agents/`, `.claude/commands/`, `.claude/skills/` — Claude Code agents, commands and skills (`changeset`: add a changeset for the current branch; `/pr`: push the branch and open a PR from the template)
+- `.claude/agents/`, `.claude/commands/`, `.claude/skills/` — Claude Code agents, commands and skills (`changeset`: add a changeset for the current branch; `/commit`: preview a Conventional Commits message and commit after approval; `/pr`: push the branch and open a PR from the template)
