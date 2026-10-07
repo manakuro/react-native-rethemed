@@ -146,4 +146,5 @@ These are already done for the current packages. They are listed for reference a
 | No version PR after merging | No changeset in the merged PR, or the "Allow GitHub Actions to create and approve pull requests" setting is off |
 | Version job fails with "Please create a GitHub personal access token" | `GITHUB_TOKEN` is missing for `@changesets/changelog-github` (the version step sets it; set it yourself for a manual `version-packages`) |
 | Publish fails with 401/403/404 from npm | The package has no trusted publisher for `release.yml`, or the workflow file was renamed |
+| `select-mode` fails with `ERR_PNPM_NO_VERSIONS` for a package | safe-chain (installed by the setup action) hides versions younger than 48h. `release.yml` excludes `@react-native-rethemed/*` via `SAFE_CHAIN_MINIMUM_PACKAGE_AGE_EXCLUSIONS`; keep that env when editing the workflow |
 | `pnpm release` waits at an auth URL | Browser 2FA: press ENTER and approve in the browser (see above) |

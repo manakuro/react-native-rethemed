@@ -30,7 +30,7 @@ runs:
       run: pnpm install --frozen-lockfile
       shell: bash
       env:
-        SAFE_CHAIN_NPM_MINIMUM_PACKAGE_AGE_EXCLUSIONS: "@react-native-rethemed,react-native-rethemed"
+        SAFE_CHAIN_NPM_MINIMUM_PACKAGE_AGE_EXCLUSIONS: "@react-native-rethemed/*"
         SAFE_CHAIN_LOGGING: silent
 
     - name: Restore cache
