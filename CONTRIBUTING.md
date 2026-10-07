@@ -17,16 +17,19 @@ Requirements:
 - **Node.js:** the version in [`.node-version`](.node-version)
 - **pnpm:** the version in `packageManager` in `package.json`. Run `corepack enable` and the right version is used automatically. Don't use npm or yarn.
 
+[Fork the repository](https://github.com/manakuro/react-native-rethemed/fork), then:
+
 ```sh
-git clone https://github.com/manakuro/react-native-rethemed.git
+git clone https://github.com/<your-username>/react-native-rethemed.git
 cd react-native-rethemed
+git remote add upstream https://github.com/manakuro/react-native-rethemed.git
 npm install -g corepack@latest
 corepack enable pnpm
 pnpm install
 pnpm lefthook install
 ```
 
-`pnpm install` and runs the playground's codegen.
+`pnpm install` also runs the playground's codegen.
 
 ### Repository layout
 
@@ -81,7 +84,7 @@ pnpm ios     # or: pnpm android
 
 ## Making a change
 
-1. Fork the repository and create a branch from `main`.
+1. Create a branch from an up-to-date `main` (`git pull upstream main`).
 2. Make your change, with tests where it makes sense. Tests sit next to the source as `*.test.ts`.
 3. Make sure the checks pass:
 
