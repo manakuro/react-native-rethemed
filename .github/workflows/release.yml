@@ -19,6 +19,11 @@ concurrency:
 
 env:
   SAFE_CHAIN_LOGGING: silent
+  # safe-chain hides versions younger than 48h from registry metadata. Our own
+  # packages must stay visible: `select-mode` / `publish` look up what is
+  # already on npm, and a just-published version would read as "no versions".
+  SAFE_CHAIN_MINIMUM_PACKAGE_AGE_EXCLUSIONS: '@react-native-rethemed/*'
+  SAFE_CHAIN_NPM_MINIMUM_PACKAGE_AGE_EXCLUSIONS: '@react-native-rethemed/*'
 
 jobs:
   select-mode:

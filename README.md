@@ -1,6 +1,6 @@
 # react-native-rethemed
 
-[![npm](https://img.shields.io/npm/v/@react-native-rethemed/core.svg)](https://www.npmjs.com/package/@react-native-rethemed/core) [![CI](https://github.com/manakuro/react-native-rethemed/actions/workflows/ci.yml/badge.svg)](https://github.com/manakuro/react-native-rethemed/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6.svg)](https://www.typescriptlang.org/) [![React Native](https://img.shields.io/badge/React%20Native-iOS%20%7C%20Android-61dafb.svg)](https://reactnative.dev/)
+[![npm](https://img.shields.io/npm/v/@react-native-rethemed/core.svg)](https://www.npmjs.com/package/@react-native-rethemed/core) [![CI](https://github.com/manakuro/react-native-rethemed/actions/workflows/ci.yml/badge.svg)](https://github.com/manakuro/react-native-rethemed/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6.svg)](https://www.typescriptlang.org/) [![React Native](https://img.shields.io/badge/React%20Native-iOS%20%7C%20Android-61dafb.svg)](https://reactnative.dev/) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/manakuro/react-native-rethemed)
 
 Design tokens for React Native style props — no wrapper components. Typed by codegen, light/dark aware, with token packages for Chakra UI, Material UI, Material Design 3, Panda CSS, Tailwind CSS, shadcn/ui, Radix UI and more.
 
