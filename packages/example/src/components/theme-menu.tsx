@@ -2,7 +2,7 @@
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useThemed } from '../shell/themed.gen';
 import { THEMES, type ThemeEntry } from '../themes';
-import { ColorModeSwitch } from './ColorModeSwitch';
+import { ColorModeSwitch } from './color-mode-switch';
 
 type Props = {
   selectedId: string;

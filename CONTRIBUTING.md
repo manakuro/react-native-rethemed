@@ -93,6 +93,13 @@ pnpm ios     # or: pnpm android
 4. **Add a changeset** if the change affects users of a published package (see below).
 5. Commit, push, and open a pull request against `main`.
 
+### Code style
+
+Biome formats and lints the code (`pnpm lint:fix`). Beyond that, follow the [Code Style](AGENTS.md#code-style) section of `AGENTS.md`; in short:
+
+- **Colocation**: keep related files close to where they are used (tests next to the source, examples inside their package).
+- **Naming**: `kebab-case` for files and folders, including components (`theme-menu.tsx`).
+
 ### Commit messages
 
 We use [Conventional Commits](https://www.conventionalcommits.org): `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`, `build:`, `ci:`. `pnpm cz` walks you through writing one.

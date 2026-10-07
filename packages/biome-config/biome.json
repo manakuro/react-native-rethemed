@@ -23,6 +23,15 @@
           "fix": "safe",
           "level": "error"
         }
+      },
+      "style": {
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["kebab-case"],
+            "requireAscii": true
+          }
+        }
       }
     }
   },
