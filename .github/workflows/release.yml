@@ -2,7 +2,8 @@ name: Release
 
 # On every push to main:
 # - unreleased changesets → open/update the "Version Packages" PR
-# - that PR merged (versions bumped, nothing on npm yet) → publish to npm
+# - that PR merged (versions bumped, nothing on npm yet) → publish to npm,
+#   push per-package git tags and create one GitHub release `v<version>`
 #
 # Publishing uses npm Trusted Publishing (OIDC): no NPM_TOKEN. Each package
 # trusts this workflow file (`release.yml`) on npmjs.com, and provenance is
@@ -104,6 +105,21 @@ jobs:
         with:
           cache-key: release
       - name: Publish packages
+        id: publish
         uses: changesets/action/publish@v2
         with:
           pack-dir-artifact-id: ${{ needs.pack.outputs.pack-dir-artifact-id }}
+          # Per-package git tags are still pushed; the GitHub release is
+          # created once per version in the next step instead of per package.
+          create-github-releases: false
+      # The packages share one version (`fixed`), so one release `v<version>`
+      # with every package's notes, built by scripts/release-notes.mjs.
+      - name: Create GitHub release
+        if: steps.publish.outputs.published == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PUBLISHED: ${{ steps.publish.outputs.published-packages }}
+        run: |
+          version=$(node -p 'JSON.parse(process.env.PUBLISHED)[0].version')
+          node scripts/release-notes.mjs "$PUBLISHED" > "$RUNNER_TEMP/release-notes.md"
+          gh release create "v$version" --title "v$version" --target "$GITHUB_SHA" --notes-file "$RUNNER_TEMP/release-notes.md"
