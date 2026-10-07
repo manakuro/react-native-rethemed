@@ -47,19 +47,15 @@ function withoutDependencyBumps(body) {
 }
 
 const order = Object.keys(dirs);
-// A changeset that names several packages shows up in each of their
-// CHANGELOGs, so packages with identical notes share one heading.
-const byBody = new Map();
-for (const pkg of published
+const parts = published
   .filter((pkg) => dirs[pkg.name])
-  .sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name))) {
-  const changelog = readFileSync(join(PACKAGES_DIR, dirs[pkg.name], 'CHANGELOG.md'), 'utf8');
-  const body = withoutDependencyBumps(section(changelog, pkg.version)).replace(/^###/gm, '####');
-  if (body) byBody.set(body, [...(byBody.get(body) ?? []), pkg.name]);
-}
-const parts = [...byBody].map(
-  ([body, names]) => `### ${names.map((name) => `\`${name}\``).join(', ')}\n\n${body}`,
-);
+  .sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name))
+  .map((pkg) => {
+    const changelog = readFileSync(join(PACKAGES_DIR, dirs[pkg.name], 'CHANGELOG.md'), 'utf8');
+    const body = withoutDependencyBumps(section(changelog, pkg.version)).replace(/^###/gm, '####');
+    return body ? `### ${pkg.name}\n\n${body}` : '';
+  })
+  .filter(Boolean);
 
 const list = published.map((pkg) => `- \`${pkg.name}@${pkg.version}\``).join('\n');
 process.stdout.write(

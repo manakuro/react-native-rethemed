@@ -114,6 +114,7 @@ jobs:
           create-github-releases: false
       # The packages share one version (`fixed`), so one release `v<version>`
       # with every package's notes, built by scripts/release-notes.mjs.
+      # Tag `v<version>`, title `<version>` (like React Native's releases).
       - name: Create GitHub release
         if: steps.publish.outputs.published == 'true'
         env:
@@ -122,4 +123,4 @@ jobs:
         run: |
           version=$(node -p 'JSON.parse(process.env.PUBLISHED)[0].version')
           node scripts/release-notes.mjs "$PUBLISHED" > "$RUNNER_TEMP/release-notes.md"
-          gh release create "v$version" --title "v$version" --target "$GITHUB_SHA" --notes-file "$RUNNER_TEMP/release-notes.md"
+          gh release create "v$version" --title "$version" --target "$GITHUB_SHA" --notes-file "$RUNNER_TEMP/release-notes.md"
