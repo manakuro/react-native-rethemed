@@ -11,7 +11,7 @@ How the packages under `packages/react-native-rethemed/` are versioned and publi
   - npm: every package at the new version
   - git tags: one per package, `@react-native-rethemed/<name>@<version>`
   - GitHub release: one per version, tag `v<version>`, title `<version>` (e.g. tag `v0.2.0`, title `0.2.0`)
-  - CHANGELOG: `packages/react-native-rethemed/*/CHANGELOG.md`, with links to the PR, commit and author ([`@changesets/changelog-github`](https://www.npmjs.com/package/@changesets/changelog-github))
+  - CHANGELOG: a `## v<version>` section in the root [`CHANGELOG.md`](../CHANGELOG.md) covering every package, plus each package's own `packages/react-native-rethemed/*/CHANGELOG.md`. Entries link the PR, commit and author ([`@changesets/changelog-github`](https://www.npmjs.com/package/@changesets/changelog-github))
 
 ## 1. Add a changeset to your PR
 
@@ -57,7 +57,12 @@ When several changesets are pending, the largest bump wins.
    - `.changeset/*.md` files exist → **version**
    - no changesets, and a package's version in `package.json` is not on npm yet → **publish**
    - otherwise → nothing
-2. **version** runs `pnpm version-packages` (`changeset version` + lockfile update). It consumes the changesets, bumps every version, and writes the CHANGELOGs. The result goes to the `changeset-release/main` branch as the **"chore: version packages"** PR. There is only ever one such PR: more merged changesets update it in place.
+2. **version** runs `pnpm version-packages`:
+   - `changeset version` consumes the changesets, bumps every version, and writes the per-package CHANGELOGs.
+   - `scripts/update-changelog.mjs` adds the `## v<version>` section to the root `CHANGELOG.md`, built from those per-package entries: one `### <package>` section per package, without "Updated dependencies" lines.
+   - The lockfile is updated.
+
+   The result goes to the `changeset-release/main` branch as the **"chore: version packages"** PR. There is only ever one such PR: more merged changesets update it in place.
 3. **pack** runs `pnpm pack` for every package. This runs `prepack` (the build) and applies `publishConfig` and the `workspace:^` rewriting.
 4. **publish**:
    - publishes the tarballs to npm via OIDC
@@ -67,7 +72,7 @@ When several changesets are pending, the largest bump wins.
 ## 3. Release
 
 1. Merge PRs with changesets. The "chore: version packages" PR opens or updates itself.
-2. Review the version PR: the versions, the CHANGELOGs, and the dependency ranges.
+2. Review the version PR: the versions, the root and per-package CHANGELOGs, and the dependency ranges. The root `CHANGELOG.md` entry can be edited in the PR before merging; the GitHub release notes are built from the per-package CHANGELOGs.
    - Pending changes can pile up; the release happens when this PR is merged.
    - The PR is created with `GITHUB_TOKEN`, so `ci.yml` does not run on it automatically.
 3. Merge the version PR. The workflow publishes.
@@ -129,7 +134,7 @@ These are already done for the current packages. They are listed for reference a
 
 1. Copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package. Depend on internal packages with `workspace:^`.
 2. Add the package to:
-   - the package directory list in `scripts/release-notes.mjs`
+   - the package directory list in `scripts/lib/changelog.mjs` (used for the root CHANGELOG and the release notes)
    - the `ci.yml` matrix
    - the package list in this file
 3. Trusted Publishing can only be configured for a package that already exists on npm, so **publish its first version manually** (`pnpm release`). Then run `npm trust github …` for it. Later releases go through the workflow.

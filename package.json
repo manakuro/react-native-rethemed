@@ -19,7 +19,7 @@
     "tsc": "turbo run tsc",
     "lefthook": "lefthook",
     "changeset": "changeset",
-    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "version-packages": "changeset version && node scripts/update-changelog.mjs && pnpm install --lockfile-only",
     "release": "changeset publish"
   },
   "devDependencies": {
