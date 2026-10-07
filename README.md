@@ -690,9 +690,9 @@ Options:
 
 The CLI validates the theme before writing (for example, a text preset that references a missing `fontSizes` key), and prints a summary of the generated tokens.
 
-## 🤝 Code of Conduct
+## 🤝 Contributing
 
-This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md). By participating, you are expected to uphold it.
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for the development setup and the PR flow. This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md); by participating, you are expected to uphold it.
 
 ## 📄 License
 
