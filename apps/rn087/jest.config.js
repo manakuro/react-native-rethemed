@@ -10,6 +10,7 @@ module.exports = {
   // SINGLETONS comment in metro.config.js).
   moduleNameMapper: {
     '^react$': '<rootDir>/node_modules/react',
+    '^react/(.*)$': '<rootDir>/node_modules/react/$1',
     '^react-native$': '<rootDir>/node_modules/react-native',
     '^react-native-safe-area-context$':
       '<rootDir>/node_modules/react-native-safe-area-context',

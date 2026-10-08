@@ -8,6 +8,14 @@ catalog:
   react: 19.2.3
   react-dom: 19.2.3
 
+packageExtensions:
+  # The preset resolves `react-native` from its own location but doesn't
+  # declare it, so it would get whichever copy pnpm hoists (one of the apps').
+  # As a peer, each app's copy is linked next to it.
+  '@react-native/jest-preset':
+    peerDependencies:
+      react-native: '*'
+
 allowBuilds:
   esbuild: true
   lefthook: true

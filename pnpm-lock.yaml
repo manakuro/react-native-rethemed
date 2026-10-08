@@ -174,6 +174,8 @@ catalogs:
       specifier: 0.86.2
       version: 0.86.2
 
+packageExtensionsChecksum: sha256-MAz1kyuO3px3+fcbXoxIe/8bB41Q9QpElHhNNAWOov8=
+
 importers:
 
   .:
@@ -199,12 +201,18 @@ importers:
 
   apps/rn076:
     dependencies:
+      '@react-native-rethemed/example':
+        specifier: workspace:*
+        version: link:../../packages/example
       react:
         specifier: 18.3.1
         version: 18.3.1
       react-native:
         specifier: 0.76.9
         version: 0.76.9(@babel/core@7.29.7(supports-color@8.1.1))(@babel/preset-env@7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@react-native-community/cli@15.0.1(supports-color@8.1.1)(typescript@5.0.4))(@types/react@18.3.31)(react@18.3.1)(supports-color@8.1.1)
+      react-native-safe-area-context:
+        specifier: ^5.5.2
+        version: 5.10.1(react-native@0.76.9(@babel/core@7.29.7(supports-color@8.1.1))(@babel/preset-env@7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@react-native-community/cli@15.0.1(supports-color@8.1.1)(typescript@5.0.4))(@types/react@18.3.31)(react@18.3.1)(supports-color@8.1.1))(react@18.3.1)
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2
@@ -236,6 +244,9 @@ importers:
       '@react-native/typescript-config':
         specifier: 0.76.9
         version: 0.76.9
+      '@types/jest':
+        specifier: ^29.5.13
+        version: 29.5.14
       '@types/react':
         specifier: ^18.2.6
         version: 18.3.31
@@ -305,7 +316,7 @@ importers:
         version: 0.87.1(eslint@8.57.1(supports-color@8.1.1))(jest@29.7.0(@types/node@24.10.4)(babel-plugin-macros@3.1.0)(supports-color@8.1.1))(prettier@2.8.8)(supports-color@8.1.1)(typescript@6.0.3)
       '@react-native/jest-preset':
         specifier: 0.87.1
-        version: 0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)
+        version: 0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)
       '@react-native/metro-config':
         specifier: 0.87.1
         version: 0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
@@ -3028,6 +3039,7 @@ packages:
     engines: {node: '>= 22.13.0'}
     peerDependencies:
       react: ^19.2.3
+      react-native: '*'
 
   '@react-native/js-polyfills@0.76.9':
     resolution: {integrity: sha512-s6z6m8cK4SMjIX1hm8LT187aQ6//ujLrjzDBogqDCYXRbfjbAYovw5as/v2a2rhUIyJbS3UjokZm3W0H+Oh/RQ==}
@@ -10333,13 +10345,14 @@ snapshots:
 
   '@react-native/gradle-plugin@0.87.1': {}
 
-  '@react-native/jest-preset@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)':
+  '@react-native/jest-preset@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)':
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
       '@react-native/js-polyfills': 0.87.1
       babel-jest: 29.7.0(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
       jest-environment-node: 29.7.0
       react: 19.2.3
+      react-native: 0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1)
       regenerator-runtime: 0.13.11
     transitivePeerDependencies:
       - '@babel/core'
@@ -14358,6 +14371,11 @@ snapshots:
   react-is@18.3.1: {}
 
   react-is@19.3.0: {}
+
+  react-native-safe-area-context@5.10.1(react-native@0.76.9(@babel/core@7.29.7(supports-color@8.1.1))(@babel/preset-env@7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@react-native-community/cli@15.0.1(supports-color@8.1.1)(typescript@5.0.4))(@types/react@18.3.31)(react@18.3.1)(supports-color@8.1.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-native: 0.76.9(@babel/core@7.29.7(supports-color@8.1.1))(@babel/preset-env@7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1))(@react-native-community/cli@15.0.1(supports-color@8.1.1)(typescript@5.0.4))(@types/react@18.3.31)(react@18.3.1)(supports-color@8.1.1)
 
   react-native-safe-area-context@5.10.1(react-native@0.86.2(@babel/core@7.29.7(supports-color@8.1.1))(@react-native-community/cli@20.2.0(supports-color@8.1.1)(typescript@6.0.3))(@types/react@19.2.17)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3):
     dependencies:
