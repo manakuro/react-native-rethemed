@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "strict": true, "jsx": "react-jsx", "noEmit": true, "skipLibCheck": false, "types": ["jest"], "target": "esnext", "lib": ["esnext"], "module": "nodenext", "moduleResolution": "nodenext" },
+  "include": ["checks/*.mts"]
+}

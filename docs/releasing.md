@@ -72,7 +72,8 @@ When several changesets are pending, the largest bump wins.
 ## 3. Release
 
 1. Merge PRs with changesets. The "chore: version packages" PR opens or updates itself.
-2. Review the version PR: the versions, the root and per-package CHANGELOGs, and the dependency ranges. The root `CHANGELOG.md` entry can be edited in the PR before merging; the GitHub release notes are built from the per-package CHANGELOGs.
+2. Review the version PR. CI's `package-smoke` job has already tested the packed packages on main; for packaging or runtime changes, also try them on a device ([manual device test](testing-packages.md#manual-device-test)).
+   Then check the versions, the root and per-package CHANGELOGs, and the dependency ranges. The root `CHANGELOG.md` entry can be edited in the PR before merging; the GitHub release notes are built from the per-package CHANGELOGs.
    - Pending changes can pile up; the release happens when this PR is merged.
    - The PR is created with `GITHUB_TOKEN`, so `ci.yml` does not run on it automatically.
 3. Merge the version PR. The workflow publishes.
@@ -132,7 +133,7 @@ These are already done for the current packages. They are listed for reference a
 
 ### Adding a new package
 
-1. Copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package. Depend on internal packages with `workspace:^`.
+1. Copy `tsdown.config.mts`, the `build` / `prepack` / `files` / `publishConfig` fields, and the `tsdown` / `tsdown-config` / `publint` / `@arethetypeswrong/core` devDependencies from an existing token package. Depend on internal packages with `workspace:^`. Run `pnpm build` once and commit the `exports` it writes to `publishConfig`.
 2. Add the package to:
    - the package directory list in `scripts/lib/changelog.mjs` (used for the root CHANGELOG and the release notes)
    - the `ci.yml` matrix

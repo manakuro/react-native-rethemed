@@ -45,12 +45,13 @@ Tooling: pnpm workspaces (with `catalog:` for `react` / `react-native`) + Turbor
 
 ```bash
 pnpm install          # Install dependencies
-pnpm build            # Build library packages to dist/ (cjs + esm + d.ts)
+pnpm build            # Build library packages to dist/ with tsdown (.mjs + .cjs + .d.mts/.d.cts)
 pnpm lint             # Lint all packages (Biome)
 pnpm lint:fix         # Fix lint issues
 pnpm test             # Run Vitest (watch)
 pnpm test:ci          # Run Vitest once
 pnpm tsc              # TypeScript check (tsc --noEmit)
+pnpm smoke            # Pack the packages and test them in e2e/package-consumer (Node, types, CLI, Jest, Metro, Hermes)
 pnpm cz               # Commit with Commitizen (conventional commits)
 pnpm changeset        # Add a changeset for a user-facing change
 ```
@@ -125,9 +126,11 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 ## Publishing
 
 - The 9 packages under `packages/react-native-rethemed/` are published to npm; `example`, `biome-config` and `apps/*` are private.
-- In the repo, `main` / `exports` point at `src/*.ts` (apps, tests and the CLI use the sources). `publishConfig` overrides them with `dist/` at publish time, and `prepack` runs `build` (`scripts/build-package.mjs` + `tsconfig.build.json`). The CLI is published as TypeScript sources and run through jiti (`files`: `bin`, `src`).
-- When adding a library package: copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package, and depend on internal packages with `workspace:^`.
+- Library packages are built with [tsdown](https://tsdown.dev): each has a `tsdown.config.mts` that calls `defineLibraryConfig({ entry })` from the private `packages/tsdown-config` (ESM + CJS, unbundled, `.d.mts` / `.d.cts`, publint and attw checks on every build). `prepack` runs `build`.
+- In the repo, `exports` point at `src/*.ts` (apps, tests and the CLI use the sources). tsdown writes the built `exports` into `publishConfig` on every build (`exports.devExports`); `publishConfig.main` / `types` are set by hand. pnpm applies `publishConfig` at publish time. Commit the `package.json` changes a build makes. The CLI is published as TypeScript sources and run through jiti (`files`: `bin`, `src`).
+- When adding a library package: copy `tsdown.config.mts`, the `build` / `prepack` / `files` / `publishConfig` fields and the `tsdown` / `tsdown-config` / `publint` / `@arethetypeswrong/core` devDependencies from an existing token package, and depend on internal packages with `workspace:^`.
 - Full release procedure: `docs/releasing.md`.
+- Apps and tests use the sources, never `dist/`. The package smoke test (`pnpm smoke`, CI job `package-smoke`) installs the packed tarballs into `e2e/package-consumer` (outside the workspace) to test what users get; see `docs/testing-packages.md`. Run it after changing builds, `exports`, `files` or dependencies.
 - Versioning uses Changesets with all public packages in one `fixed` group (same version). Add a changeset (`pnpm changeset`) to any PR with a user-facing change.
 - Releases run in CI (`.github/workflows/release.yml`): pushes to main open/update a "chore: version packages" PR; merging it publishes to npm via Trusted Publishing (OIDC, no token), pushes per-package git tags and creates one GitHub release `v<version>` (notes from `scripts/release-notes.mjs`). `pnpm version-packages` also adds a `## v<version>` section to the root `CHANGELOG.md` (`scripts/update-changelog.mjs`). CHANGELOG entries link the PR, commit and author (`@changesets/changelog-github`), so a manual `version-packages` needs a token: `GITHUB_TOKEN=$(gh auth token) pnpm version-packages`. Manual fallback: `pnpm version-packages` → commit → `pnpm release` → `git push --follow-tags`.
 
@@ -137,5 +140,6 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 
 - `CLAUDE.md` — Claude Code specific instructions
 - `docs/releasing.md` — Changesets, the release workflow, manual release and npm Trusted Publishing setup
+- `docs/testing-packages.md` — How the built packages are tested: the package smoke test (`pnpm smoke`, `e2e/package-consumer`) and manual device testing
 - `packages/react-native-rethemed/*/example/README.md` — What the CLI generates for each token package
 - `.claude/agents/`, `.claude/commands/`, `.claude/skills/` — Claude Code agents, commands and skills (`changeset`: add a changeset for the current branch; `/commit`: preview a Conventional Commits message and commit after approval; `/pr`: push the branch and open a PR from the template)

@@ -1,0 +1,17 @@
+{
+  "name": "tsdown-config",
+  "license": "MIT",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "peerDependencies": {
+    "tsdown": "*"
+  },
+  "devDependencies": {
+    "tsdown": "0.23.0",
+    "typescript": "6.0.3"
+  }
+}

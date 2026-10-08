@@ -53,6 +53,7 @@ pnpm lint:fix    # Biome, with fixes
 pnpm tsc         # Type-check
 pnpm test:ci     # Vitest, once
 pnpm build       # Build the library packages to dist/
+pnpm smoke       # Test the packed packages in a React Native app (see docs/testing-packages.md)
 ```
 
 For a single package, use `pnpm --filter <package name> <script>`:
