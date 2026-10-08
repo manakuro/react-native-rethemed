@@ -1,5 +1,13 @@
 # @react-native-rethemed/shadcn-ui-tokens
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`43ca68d`](https://github.com/manakuro/react-native-rethemed/commit/43ca68d5c1de4b4763c169aa1ef7b5f5455b2244)]:
+  - @react-native-rethemed/core@0.1.2
+  - @react-native-rethemed/tailwind-css-tokens@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

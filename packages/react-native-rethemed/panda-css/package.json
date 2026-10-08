@@ -1,6 +1,6 @@
 {
   "name": "@react-native-rethemed/panda-css-tokens",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Panda CSS's default theme tokens for React Native, ready for react-native-rethemed.",
   "keywords": [
     "react-native",
