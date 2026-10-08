@@ -1,6 +1,6 @@
 {
   "name": "@react-native-rethemed/tailwind-css-tokens",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Tailwind CSS's default theme (colors, spacing, text sizes, shadows) for React Native, ready for react-native-rethemed.",
   "keywords": [
     "react-native",

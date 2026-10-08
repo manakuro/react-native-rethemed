@@ -1,6 +1,6 @@
 {
   "name": "@react-native-rethemed/material-ui-tokens",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Material UI's default theme (palette, colors, typography) for React Native, ready for react-native-rethemed.",
   "keywords": [
     "react-native",

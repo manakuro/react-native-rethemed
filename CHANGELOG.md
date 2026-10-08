@@ -4,6 +4,14 @@ All notable changes to the react-native-rethemed packages. Every release
 publishes all packages at the same version; see each package's
 `CHANGELOG.md` for its own history.
 
+## v0.1.2
+
+### @react-native-rethemed/core
+
+#### Patch Changes
+
+- [#6](https://github.com/manakuro/react-native-rethemed/pull/6) [`43ca68d`](https://github.com/manakuro/react-native-rethemed/commit/43ca68d5c1de4b4763c169aa1ef7b5f5455b2244) Thanks [@manakuro](https://github.com/manakuro)! - Fix `ThemedProvider` crashing on React 18 and declare `react >=18` as the peer dependency range.
+
 ## v0.1.1
 
 ### @react-native-rethemed/core
