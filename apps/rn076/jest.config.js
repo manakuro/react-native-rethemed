@@ -1,5 +1,7 @@
 module.exports = {
-  preset: '@react-native/jest-preset',
+  // RN 0.76 ships its Jest preset inside `react-native`
+  // (`@react-native/jest-preset` starts with later versions).
+  preset: 'react-native',
   setupFiles: ['<rootDir>/jest.setup.js'],
   // pnpm stores packages under `node_modules/.pnpm/<id>/node_modules/<name>`,
   // which the preset's default pattern doesn't account for.

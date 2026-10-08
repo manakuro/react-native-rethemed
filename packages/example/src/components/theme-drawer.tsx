@@ -17,6 +17,10 @@ import { useThemed } from '../shell/themed.gen';
 
 const MAX_WIDTH = 320;
 
+// `navigationBarTranslucent` is RN 0.77+ (Android). Spread untyped so apps on
+// older versions (apps/rn076) type-check; they ignore the prop at runtime.
+const EDGE_TO_EDGE_PROPS: object = { navigationBarTranslucent: true };
+
 type Props = {
   open: boolean;
   onClose: () => void;
@@ -51,7 +55,7 @@ export function ThemeDrawer({ open, onClose, children }: Props) {
       transparent
       animationType="none"
       statusBarTranslucent
-      navigationBarTranslucent
+      {...EDGE_TO_EDGE_PROPS}
       onRequestClose={onClose}
     >
       <Animated.View

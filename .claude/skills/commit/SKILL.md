@@ -50,7 +50,7 @@ git diff --cached
   | `chore` | Other maintenance that changes no source or tests (`.gitignore`, repo settings) |
 
 - `<subject>`: one short sentence in the **imperative mood** (present tense, written as an order: `add`, `fix`, `remove`, not `added` / `adds`), lower case, no period. This follows [Google's CL description guidelines](https://google.github.io/eng-practices/review/developer/cl-descriptions.html): the first line is a short, focused summary that reads as an order.
-- `<scope>` is optional. Add it only when the change is confined to one package or area, using its directory name: `core`, `cli`, `chakra-ui`, `material-ui`, `material-design`, `panda-css`, `tailwind-css`, `shadcn-ui`, `radix-ui`, `example`, `rn087`, `release`. Leave it out for changes that span several packages or the whole repo.
+- `<scope>` is optional. Add it only when the change is confined to one package or area, using its directory name: `core`, `cli`, `chakra-ui`, `material-ui`, `material-design`, `panda-css`, `tailwind-css`, `shadcn-ui`, `radix-ui`, `example`, `rn076`, `rn087`, `release`. Leave it out for changes that span several packages or the whole repo.
 - The whole line, including `<type>(<scope>): `, is **50 characters or fewer**. Drop the scope if it would push the line over.
 - Examples: `feat: add new page`, `fix(cli): report missing token key`
 
