@@ -1,6 +1,6 @@
 {
   "name": "@react-native-rethemed/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Type-safe design tokens for React Native style props — light/dark themes, text presets, and a themed style API.",
   "keywords": [
     "react-native",
