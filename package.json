@@ -20,7 +20,8 @@
     "lefthook": "lefthook",
     "changeset": "changeset",
     "version-packages": "changeset version && node scripts/update-changelog.mjs && pnpm install --lockfile-only",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "smoke": "node scripts/smoke-test.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "1.0.1",

@@ -72,7 +72,8 @@ When several changesets are pending, the largest bump wins.
 ## 3. Release
 
 1. Merge PRs with changesets. The "chore: version packages" PR opens or updates itself.
-2. Review the version PR: the versions, the root and per-package CHANGELOGs, and the dependency ranges. The root `CHANGELOG.md` entry can be edited in the PR before merging; the GitHub release notes are built from the per-package CHANGELOGs.
+2. Review the version PR. CI's `package-smoke` job has already tested the packed packages on main; for packaging or runtime changes, also try them on a device ([manual device test](testing-packages.md#manual-device-test)).
+   Then check the versions, the root and per-package CHANGELOGs, and the dependency ranges. The root `CHANGELOG.md` entry can be edited in the PR before merging; the GitHub release notes are built from the per-package CHANGELOGs.
    - Pending changes can pile up; the release happens when this PR is merged.
    - The PR is created with `GITHUB_TOKEN`, so `ci.yml` does not run on it automatically.
 3. Merge the version PR. The workflow publishes.

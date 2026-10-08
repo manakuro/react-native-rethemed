@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "strict": true, "jsx": "react-jsx", "noEmit": true, "skipLibCheck": false, "types": ["jest"], "target": "esnext", "lib": ["esnext"], "module": "node16", "moduleResolution": "node16" },
+  "include": ["src", "__tests__"]
+}

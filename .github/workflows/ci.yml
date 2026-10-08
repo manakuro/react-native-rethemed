@@ -54,3 +54,31 @@ jobs:
       # Library packages only (cli and example have no build script).
       - name: Build
         run: pnpm turbo run build --filter=./${{ matrix.path }}/${{ matrix.package }}
+
+  # Installs the packed tarballs into a React Native app outside the
+  # workspace (e2e/package-consumer) and checks Node, types, the CLI, Jest,
+  # Metro and Hermes against what npm users get. See docs/testing-packages.md.
+  package-smoke:
+    name: package-smoke
+    runs-on: ubuntu-latest
+    env:
+      SAFE_CHAIN_LOGGING: silent
+      # Our own packages are installed from local tarballs; never let the
+      # 48h age check hide their registry metadata.
+      SAFE_CHAIN_MINIMUM_PACKAGE_AGE_EXCLUSIONS: '@react-native-rethemed/*'
+      SAFE_CHAIN_NPM_MINIMUM_PACKAGE_AGE_EXCLUSIONS: '@react-native-rethemed/*'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+        with:
+          cache-key: package-smoke
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('e2e/package-consumer/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+      - name: Package smoke test
+        run: pnpm smoke
