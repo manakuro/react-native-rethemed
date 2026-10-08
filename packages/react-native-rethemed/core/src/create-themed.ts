@@ -67,10 +67,18 @@ function toColorScheme(value: string | null | undefined): ColorScheme {
   return value === 'dark' ? 'dark' : 'light';
 }
 
+/**
+ * RN's own parameter type. Older versions (e.g. 0.76) type only
+ * `'light' | 'dark' | null` but pass `'unspecified'` through at runtime.
+ */
+type ColorSchemeOverride = Parameters<typeof Appearance.setColorScheme>[0];
+
 /** `Appearance.setColorScheme` is RN 0.73+ only and absent on react-native-web. */
 function syncNativeAppearance(mode: ColorMode) {
   if (typeof Appearance?.setColorScheme !== 'function') return;
-  Appearance.setColorScheme(mode === 'system' ? 'unspecified' : mode);
+  Appearance.setColorScheme(
+    (mode === 'system' ? 'unspecified' : mode) as ColorSchemeOverride,
+  );
 }
 
 const warnControlledSetMode = () => {
