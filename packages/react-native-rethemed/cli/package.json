@@ -1,6 +1,6 @@
 {
   "name": "@react-native-rethemed/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI for react-native-rethemed: generates typed token docs (themed.gen.ts) and an AI-agent token reference from your theme.",
   "keywords": [
     "react-native",
