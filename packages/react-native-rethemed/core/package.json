@@ -57,7 +57,7 @@
     }
   },
   "peerDependencies": {
-    "react": "*",
+    "react": ">=18",
     "react-native": "*"
   },
   "devDependencies": {

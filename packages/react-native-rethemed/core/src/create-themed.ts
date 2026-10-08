@@ -177,10 +177,12 @@ export function createThemed<S extends ThemedSchema = LooseSchema>(
 
     // `createElement` instead of JSX so consumers type-checking this source
     // (it ships as `.ts`) don't need a `jsx` compiler option.
+    // `.Provider` rather than the context itself: rendering a context as a
+    // provider is React 19+ only; React 18 treats it as a consumer and throws.
     return createElement(
-      SchemeContext,
+      SchemeContext.Provider,
       { value: scheme },
-      createElement(ModeContext, { value: modeValue }, children),
+      createElement(ModeContext.Provider, { value: modeValue }, children),
     );
   }
 
