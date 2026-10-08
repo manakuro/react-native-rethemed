@@ -84,4 +84,6 @@ Add variants to `createThemedStyles`.
 pnpm changeset status --verbose
 ```
 
-Check that the listed packages and bump types match what you intended. All packages show the same new version, because of the `fixed` group. Then tell the user the file name, the packages, the bump types, and the summary, and commit the file with the change.
+Check that the listed packages and bump types match what you intended. All packages show the same new version, because of the `fixed` group. Then tell the user the file name, the packages, the bump types, and the summary.
+
+Only add the file. Don't `git add` or `git commit` it; the user commits it with the change.
