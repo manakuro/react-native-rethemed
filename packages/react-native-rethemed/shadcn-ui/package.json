@@ -21,16 +21,16 @@
     "directory": "packages/react-native-rethemed/shadcn-ui"
   },
   "sideEffects": false,
-  "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "node ../../../scripts/build-package.mjs",
+    "build": "tsdown",
     "prepack": "pnpm run build",
     "sync": "jiti scripts/sync.ts",
     "generate": "jiti scripts/generate.ts",
@@ -43,18 +43,12 @@
   },
   "publishConfig": {
     "access": "public",
-    "main": "./dist/cjs/index.js",
-    "types": "./dist/cjs/index.d.ts",
+    "main": "./dist/index.cjs",
+    "types": "./dist/index.d.cts",
     "exports": {
       ".": {
-        "import": {
-          "types": "./dist/esm/index.d.ts",
-          "default": "./dist/esm/index.js"
-        },
-        "require": {
-          "types": "./dist/cjs/index.d.ts",
-          "default": "./dist/cjs/index.js"
-        }
+        "import": "./dist/index.mjs",
+        "require": "./dist/index.cjs"
       },
       "./package.json": "./package.json"
     }
@@ -64,6 +58,7 @@
     "@react-native-rethemed/tailwind-css-tokens": "workspace:^"
   },
   "devDependencies": {
+    "@arethetypeswrong/core": "0.18.5",
     "@biomejs/biome": "2.5.4",
     "@react-native-rethemed/cli": "workspace:*",
     "@types/culori": "4.0.1",
@@ -72,8 +67,11 @@
     "biome-config": "workspace:*",
     "culori": "4.0.2",
     "jiti": "2.7.0",
+    "publint": "0.3.25",
     "react": "catalog:",
     "react-native": "catalog:",
+    "tsdown": "0.23.0",
+    "tsdown-config": "workspace:*",
     "typescript": "6.0.3",
     "vitest": "4.1.10"
   }

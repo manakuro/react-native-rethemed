@@ -45,7 +45,7 @@ Tooling: pnpm workspaces (with `catalog:` for `react` / `react-native`) + Turbor
 
 ```bash
 pnpm install          # Install dependencies
-pnpm build            # Build library packages to dist/ (cjs + esm + d.ts)
+pnpm build            # Build library packages to dist/ with tsdown (.mjs + .cjs + .d.mts/.d.cts)
 pnpm lint             # Lint all packages (Biome)
 pnpm lint:fix         # Fix lint issues
 pnpm test             # Run Vitest (watch)
@@ -125,8 +125,9 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 ## Publishing
 
 - The 9 packages under `packages/react-native-rethemed/` are published to npm; `example`, `biome-config` and `apps/*` are private.
-- In the repo, `main` / `exports` point at `src/*.ts` (apps, tests and the CLI use the sources). `publishConfig` overrides them with `dist/` at publish time, and `prepack` runs `build` (`scripts/build-package.mjs` + `tsconfig.build.json`). The CLI is published as TypeScript sources and run through jiti (`files`: `bin`, `src`).
-- When adding a library package: copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package, and depend on internal packages with `workspace:^`.
+- Library packages are built with [tsdown](https://tsdown.dev): each has a `tsdown.config.mts` that calls `defineLibraryConfig({ entry })` from the private `packages/tsdown-config` (ESM + CJS, unbundled, `.d.mts` / `.d.cts`, publint and attw checks on every build). `prepack` runs `build`.
+- In the repo, `exports` point at `src/*.ts` (apps, tests and the CLI use the sources). tsdown writes the built `exports` into `publishConfig` on every build (`exports.devExports`); `publishConfig.main` / `types` are set by hand. pnpm applies `publishConfig` at publish time. Commit the `package.json` changes a build makes. The CLI is published as TypeScript sources and run through jiti (`files`: `bin`, `src`).
+- When adding a library package: copy `tsdown.config.mts`, the `build` / `prepack` / `files` / `publishConfig` fields and the `tsdown` / `tsdown-config` / `publint` / `@arethetypeswrong/core` devDependencies from an existing token package, and depend on internal packages with `workspace:^`.
 - Full release procedure: `docs/releasing.md`.
 - Versioning uses Changesets with all public packages in one `fixed` group (same version). Add a changeset (`pnpm changeset`) to any PR with a user-facing change.
 - Releases run in CI (`.github/workflows/release.yml`): pushes to main open/update a "chore: version packages" PR; merging it publishes to npm via Trusted Publishing (OIDC, no token), pushes per-package git tags and creates one GitHub release `v<version>` (notes from `scripts/release-notes.mjs`). `pnpm version-packages` also adds a `## v<version>` section to the root `CHANGELOG.md` (`scripts/update-changelog.mjs`). CHANGELOG entries link the PR, commit and author (`@changesets/changelog-github`), so a manual `version-packages` needs a token: `GITHUB_TOKEN=$(gh auth token) pnpm version-packages`. Manual fallback: `pnpm version-packages` → commit → `pnpm release` → `git push --follow-tags`.

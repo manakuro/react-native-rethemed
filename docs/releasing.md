@@ -132,7 +132,7 @@ These are already done for the current packages. They are listed for reference a
 
 ### Adding a new package
 
-1. Copy `tsconfig.build.json` and the `build` / `prepack` / `files` / `publishConfig` fields from an existing token package. Depend on internal packages with `workspace:^`.
+1. Copy `tsdown.config.mts`, the `build` / `prepack` / `files` / `publishConfig` fields, and the `tsdown` / `tsdown-config` / `publint` / `@arethetypeswrong/core` devDependencies from an existing token package. Depend on internal packages with `workspace:^`. Run `pnpm build` once and commit the `exports` it writes to `publishConfig`.
 2. Add the package to:
    - the package directory list in `scripts/lib/changelog.mjs` (used for the root CHANGELOG and the release notes)
    - the `ci.yml` matrix
