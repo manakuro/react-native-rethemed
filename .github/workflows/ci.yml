@@ -55,6 +55,22 @@ jobs:
       - name: Build
         run: pnpm turbo run build --filter=./${{ matrix.path }}/${{ matrix.package }}
 
+  # Scans the whole repository for committed credentials (API keys, tokens,
+  # private keys). Lefthook runs the same check on staged files in pre-commit.
+  secretlint:
+    name: secretlint
+    runs-on: ubuntu-latest
+    env:
+      SAFE_CHAIN_LOGGING: silent
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup monorepo
+        uses: ./.github/actions/setup
+        with:
+          cache-key: secretlint
+      - name: Secretlint
+        run: pnpm secretlint
+
   # Installs the packed tarballs into a React Native app outside the
   # workspace (e2e/package-consumer) and checks Node, types, the CLI, Jest,
   # Metro and Hermes against what npm users get. See docs/testing-packages.md.

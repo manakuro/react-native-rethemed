@@ -35,7 +35,7 @@ This file is referenced by multiple AI coding assistants:
 | example | `@react-native-rethemed/example` (private) | `packages/example/` | The playground screen (`<Playground />`) and its themes, shared by every app in `apps/` |
 | apps | e.g. `rn087` | `apps/rn<version>/` | One React Native app per RN version, each rendering `<Playground />` |
 
-Tooling: pnpm workspaces (with `catalog:` for `react` / `react-native`) + Turborepo, TypeScript, Biome, Vitest, Lefthook, Commitizen.
+Tooling: pnpm workspaces (with `catalog:` for `react` / `react-native`) + Turborepo, TypeScript, Biome, Vitest, Lefthook, Commitizen, secretlint.
 
 ---
 
@@ -48,6 +48,7 @@ pnpm install          # Install dependencies
 pnpm build            # Build library packages to dist/ with tsdown (.mjs + .cjs + .d.mts/.d.cts)
 pnpm lint             # Lint all packages (Biome)
 pnpm lint:fix         # Fix lint issues
+pnpm secretlint       # Scan the repository for committed secrets (secretlint)
 pnpm test             # Run Vitest (watch)
 pnpm test:ci          # Run Vitest once
 pnpm tsc              # TypeScript check (tsc --noEmit)
@@ -110,7 +111,7 @@ pnpm generate         # panda-css / material-ui / tailwind-css: regenerate src/t
 - **Colocation**: Keep related files close to where they are used. Tests sit next to the source as `*.test.ts`; a token package's `example/` lives inside the package; each playground theme keeps its `theme.ts`, `themed.gen.ts` and `preview.tsx` together in `packages/example/src/themes/<id>/`. Move code to a shared place only once more than one place uses it.
 - **Naming**: Use `kebab-case` for files and folders, including React components (`theme-menu.tsx` exports `ThemeMenu`). Biome's `useFilenamingConvention` enforces it for JS/TS files. Exceptions: the `__fixtures__` / `__type-tests__` folders, upper-case docs (`README.md`, `CHANGELOG.md`, `AGENTS.md`, …), and the React Native template files in `apps/*` (`App.tsx`, `__tests__/`).
 - Never edit `*.gen.ts` files by hand — regenerate them.
-- Run `pnpm lint:fix` before committing. Lefthook runs Biome and `tsc` on staged files per package in `pre-commit`.
+- Run `pnpm lint:fix` before committing. Lefthook runs secretlint on all staged files, and Biome and `tsc` on staged files per package, in `pre-commit`.
 - Commit messages follow Conventional Commits (`pnpm cz`, or `/commit` in Claude Code): an imperative subject line of 50 characters or fewer (`feat: add new page`), then a body of two or three sentences in the past tense. Rules: `.claude/skills/commit/SKILL.md`.
 
 ---
